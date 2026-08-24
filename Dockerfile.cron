@@ -12,7 +12,10 @@ RUN pip install --no-cache-dir --retries 5 --timeout 120 -r requirements.txt
 
 COPY . .
 
+# Make entrypoint executable
+RUN chmod +x entrypoint-cron.sh
+
 RUN mkdir -p storage/tasks storage/cache_videos
 
 # Run autopilot once per cron trigger, then exit
-CMD ["python", "autopilot.py"]
+ENTRYPOINT ["./entrypoint-cron.sh"]
