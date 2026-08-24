@@ -4,10 +4,6 @@ Fully automated **YouTube Shorts** pipeline. Every 6 hours it picks a US-based
 niche topic, generates a Short with AI (script → Pexels footage → TTS → render),
 uploads it to YouTube, and pings Telegram.
 
-> **Live Dashboard:** https://yt-autopilot-esfrsu6ar-sendltestmaill-3608s-projects.vercel.app
-> (login: `sunny` / `3424`)
-> **Live Channel:** [@DesiFragLord](https://www.youtube.com/@DesiFragLord)
-
 ---
 
 ## ✨ What it does
