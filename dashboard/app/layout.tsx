@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { LoginGate } from "@/components/LoginGate";
 
 export const metadata: Metadata = {
   title: "YT Auto-Pilot — Monitor",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <LoginGate />
+        {children}
+      </body>
     </html>
   );
 }

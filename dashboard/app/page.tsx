@@ -1,9 +1,15 @@
-import { getHistory, RunEvent } from "@/lib/history";
+"use client";
+
+import { useAuth } from "@/components/LoginGate";
+import type { RunEvent } from "@/lib/history";
+import { useEffect, useState } from "react";
+
+const HISTORY_URL =
+  "https://raw.githubusercontent.com/surinder2003k/yt-autopilot/main/history.json";
 
 function fmtDate(iso: string): string {
   try {
-    const d = new Date(iso);
-    return d.toLocaleString("en-IN", {
+    return new Date(iso).toLocaleString("en-IN", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -24,33 +30,44 @@ function timeAgo(iso: string): string {
     if (m < 60) return `${m}m ago`;
     const h = Math.floor(m / 60);
     if (h < 24) return `${h}h ago`;
-    const d = Math.floor(h / 24);
-    return `${d}d ago`;
+    return `${Math.floor(h / 24)}d ago`;
   } catch {
     return "";
   }
 }
 
-export default async function Page() {
-  const events: RunEvent[] = await getHistory();
-  const sorted = [...events].reverse(); // newest first
+export default function Page() {
+  const { authed } = useAuth();
+  const [events, setEvents] = useState<RunEvent[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  const load = async () => {
+    try {
+      const res = await fetch(HISTORY_URL, { cache: "no-store" });
+      const data = res.ok ? await res.json() : [];
+      setEvents(Array.isArray(data) ? (data as RunEvent[]) : []);
+    } catch {
+      setEvents([]);
+    } finally {
+      setLoaded(true);
+    }
+  };
+
+  useEffect(() => {
+    if (authed) load();
+  }, [authed]);
+
+  if (authed !== true) return null; // gate handles its own UI
+
+  const sorted = [...events].reverse();
   const total = events.length;
   const success = events.filter((e) => e.status === "success").length;
   const failed = total - success;
   const successRate = total ? Math.round((success / total) * 100) : 0;
   const lastRun = sorted[0];
-  const nextRun = "in ~6h (cron: 0 */6 * * *)";
-
-  const stats = [
-    { label: "Total Runs", value: total, accent: true },
-    { label: "Posted", value: success, accent: true },
-    { label: "Failed", value: failed, danger: failed > 0 },
-    { label: "Success Rate", value: `${successRate}%`, accent: true },
-  ];
 
   return (
     <main className="mx-auto max-w-5xl px-5 py-10">
-      {/* Header */}
       <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
@@ -70,17 +87,18 @@ export default async function Page() {
               {lastRun ? timeAgo(lastRun.ts) : "—"}
             </span>
           </p>
-          <p>Next run: {nextRun}</p>
+          <p>Next run: in ~6h (cron: 0 */6 * * *)</p>
         </div>
       </header>
 
-      {/* Stats */}
       <section className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {stats.map((s) => (
-          <div
-            key={s.label}
-            className={`glass p-4 ${s.accent ? "glow-border" : ""}`}
-          >
+        {[
+          { label: "Total Runs", value: total, accent: true },
+          { label: "Posted", value: success, accent: true },
+          { label: "Failed", value: failed, danger: failed > 0 },
+          { label: "Success Rate", value: `${successRate}%`, accent: true },
+        ].map((s) => (
+          <div key={s.label} className={`glass p-4 ${s.accent ? "glow-border" : ""}`}>
             <p className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">
               {s.label}
             </p>
@@ -95,7 +113,6 @@ export default async function Page() {
         ))}
       </section>
 
-      {/* Live status banner */}
       <section className="mt-6">
         <div
           className={`glass flex items-center justify-between p-4 ${
@@ -105,9 +122,7 @@ export default async function Page() {
           <div className="flex items-center gap-3">
             <span
               className={`inline-block h-3 w-3 rounded-full ${
-                lastRun?.status === "failed"
-                  ? "bg-danger"
-                  : "bg-cyan glow-border"
+                lastRun?.status === "failed" ? "bg-danger" : "bg-cyan glow-border"
               }`}
             />
             <span className="text-sm">
@@ -124,13 +139,24 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* Run history */}
       <section className="mt-8">
-        <h2 className="mb-3 text-sm font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
-          Run History
-        </h2>
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-sm font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
+            Run History
+          </h2>
+          <button
+            onClick={load}
+            className="rounded-lg border border-[var(--border)] px-3 py-1 text-xs text-cyan transition hover:bg-[rgba(0,240,255,0.08)]"
+          >
+            Refresh
+          </button>
+        </div>
 
-        {sorted.length === 0 ? (
+        {!loaded ? (
+          <div className="glass p-8 text-center text-sm text-[var(--muted-foreground)]">
+            Loading…
+          </div>
+        ) : sorted.length === 0 ? (
           <div className="glass p-8 text-center text-sm text-[var(--muted-foreground)]">
             No posts yet. The pipeline runs every 6 hours.
           </div>

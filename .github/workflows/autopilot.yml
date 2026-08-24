@@ -60,23 +60,3 @@ jobs:
           git add history.json
           git diff --cached --quiet || git commit -m "chore: update run history [skip ci]"
           git push
-
-  # ---- Read-only monitoring dashboard on GitHub Pages ----
-  publish-dashboard:
-    name: Publish Dashboard
-    needs: run-autopilot
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Upload dashboard as Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dashboard
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
