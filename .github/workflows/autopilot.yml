@@ -1,0 +1,36 @@
+name: YouTube Auto-Pilot (every 6 hours)
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # har 6 ghante: 00:00, 06:00, 12:00, 18:00 UTC
+  workflow_dispatch:        # manual trigger from Actions tab
+
+jobs:
+  run-autopilot:
+    name: Generate & Upload Short
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: autopilot
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build cron image (Playwright pre-installed)
+        run: docker build -f Dockerfile.cron -t autopilot .
+
+      - name: Run autopilot
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+        run: docker run --rm autopilot
