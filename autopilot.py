@@ -106,7 +106,7 @@ def generate_video(topic_entry):
         n_threads=2,
         video_source="pexels",
         video_language="English",         # force English script for US audience
-        font_name="arialbd.ttf",          # Arial Bold - clean English subtitles
+        font_name="BeVietnamPro-Bold.ttf",  # bundled font (arialbd.ttf not shipped)
         text_fore_color="#FFFFFF",
         stroke_color="#000000",
         stroke_width=1.8,
