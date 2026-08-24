@@ -1,17 +1,20 @@
-venv/
-storage/
+# Build artifacts
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/.vercel/
+next-env.d.ts
+
+# Python
 __pycache__/
 *.pyc
-config.toml
 automation.env
-client_secret*.json
-yt_token.pickle
-.env
-.playwright-cli/
 automation_state.json
-storage/
-resource/fonts/STHeitiLight.ttc
-resource/fonts/STHeitiMedium.ttc
-resource/fonts/MicrosoftYaHeiNormal.ttc
-resource/fonts/MicrosoftYaHeiBold.ttc
-resource/songs/*.mp3
+yt_token.pickle
+config.toml
+
+# OS
+.DS_Store
+
+# secrets
+client_secret*.json
