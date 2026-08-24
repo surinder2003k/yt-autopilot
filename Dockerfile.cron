@@ -1,14 +1,12 @@
-# Cron-only image: har 6 ghante autopilot run karta hai
-FROM python:3.11-slim-bullseye
+# Cron-only image: har 6 ghante autopilot run karta hai (Playwright pre-installed)
+FROM mcr.microsoft.com/playwright/python:v1.46.0-jammy
 
 WORKDIR /app
 ENV PYTHONPATH=/app \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends git ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
-
+# Only install ffmpeg (already in base) + python deps
 COPY requirements.txt ./
 RUN pip install --no-cache-dir --retries 5 --timeout 120 -r requirements.txt
 

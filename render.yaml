@@ -28,7 +28,7 @@ services:
     name: yt-autopilot-cron
     runtime: docker
     dockerfilePath: ./Dockerfile.cron
-    plan: starter
+    plan: free
     schedule: "0 */6 * * *"
     envVars:
       - key: PEXELS_API_KEY
