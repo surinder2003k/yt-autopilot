@@ -5,6 +5,9 @@ on:
     - cron: '0 */6 * * *'   # har 6 ghante: 00:00, 06:00, 12:00, 18:00 UTC
   workflow_dispatch:        # manual trigger from Actions tab
 
+permissions:
+  contents: write           # needed to commit history.json back to the repo
+
 jobs:
   run-autopilot:
     name: Generate & Upload Short
@@ -34,6 +37,8 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
         run: |
+          mkdir -p /tmp/autopilot-data
+          cp history.json /tmp/autopilot-data/history.json
           docker run --rm \
             -e PEXELS_API_KEY="${{ secrets.PEXELS_API_KEY }}" \
             -e OPENROUTER_API_KEY="${{ secrets.OPENROUTER_API_KEY }}" \
@@ -42,4 +47,36 @@ jobs:
             -e YT_REFRESH_TOKEN="${{ secrets.YT_REFRESH_TOKEN }}" \
             -e YT_CLIENT_ID="${{ secrets.YT_CLIENT_ID }}" \
             -e YT_CLIENT_SECRET="${{ secrets.YT_CLIENT_SECRET }}" \
+            -e HISTORY_FILE=/data/history.json \
+            -v /tmp/autopilot-data:/data \
             autopilot
+
+      - name: Commit run history back to repo (for dashboard)
+        if: always()
+        run: |
+          cp /tmp/autopilot-data/history.json history.json
+          git config user.name "autopilot-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add history.json
+          git diff --cached --quiet || git commit -m "chore: update run history [skip ci]"
+          git push
+
+  # ---- Read-only monitoring dashboard on GitHub Pages ----
+  publish-dashboard:
+    name: Publish Dashboard
+    needs: run-autopilot
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Upload dashboard as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboard
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

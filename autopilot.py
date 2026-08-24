@@ -4,6 +4,7 @@ MoneyPrinterTurbo Auto-Pilot
 - Generates video via MoneyPrinterTurbo pipeline
 - Uploads to YouTube (OAuth)
 - Notifies via Telegram
+- Logs every run to history.json (read by the monitoring dashboard)
 Designed to run every 6 hours (Task Scheduler / cron / Render cron).
 """
 import os
@@ -38,7 +39,11 @@ TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 YT_CLIENT_SECRET_FILE = os.environ.get("YT_CLIENT_SECRET_FILE", str(ROOT / "client_secret.json"))
 UPLOAD_LANGUAGE = os.environ.get("UPLOAD_LANGUAGE", "en")  # en or hi
-STATE_FILE = ROOT / "automation_state.json"
+
+# Persisted files. In CI we override these to a mounted volume (/data) so the
+# GitHub Actions workflow can commit them back to the repo for the dashboard.
+STATE_FILE = pathlib.Path(os.environ.get("STATE_FILE", str(ROOT / "automation_state.json")))
+HISTORY_FILE = pathlib.Path(os.environ.get("HISTORY_FILE", str(ROOT / "history.json")))
 
 # US-based niches - high RPM categories (English only)
 TOPICS = [
@@ -78,6 +83,32 @@ def load_state():
 def save_state(state):
     state["last_run"] = datetime.datetime.now().isoformat()
     STATE_FILE.write_text(json.dumps(state, indent=2))
+
+
+def load_history():
+    """Return the list of run events (newest last)."""
+    if HISTORY_FILE.exists():
+        try:
+            data = json.loads(HISTORY_FILE.read_text())
+            if isinstance(data, list):
+                return data
+        except Exception:
+            pass
+    return []
+
+
+def append_history(event):
+    """Append a run event to history.json. Never raises - logging must not
+    break the upload pipeline."""
+    try:
+        events = load_history()
+        events.append(event)
+        # keep last 500 events to bound file size
+        if len(events) > 500:
+            events = events[-500:]
+        HISTORY_FILE.write_text(json.dumps(events, indent=2))
+    except Exception as e:
+        logger.warning(f"could not write history: {e}")
 
 
 def pick_topic(state):
@@ -216,6 +247,7 @@ def main():
     logger.info("=== Auto-Pilot starting ===")
     state = load_state()
     idx, topic_entry = pick_topic(state)
+    ts = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
     try:
         task_id, video_path, result = generate_video(topic_entry)
@@ -223,11 +255,31 @@ def main():
         video_id = upload_to_youtube(video_path, title, desc, tags)
         notify_telegram(f"🎬 Video posted!\n\n📌 {title}\n🔗 https://youtube.com/watch?v={video_id}\n📁 Task: {task_id}")
         save_state(state)
+        append_history({
+            "ts": ts,
+            "status": "success",
+            "topic_index": idx,
+            "topic": topic_entry["t"],
+            "title": title,
+            "video_id": video_id,
+            "url": f"https://youtube.com/watch?v={video_id}",
+            "tags": tags,
+            "task_id": task_id,
+        })
         logger.success("=== Auto-Pilot run complete ===")
     except Exception as e:
+        err = str(e)
         logger.error(f"auto-pilot failed: {e}")
-        notify_telegram(f"⚠️ Video automation FAILED:\n{str(e)[:500]}\nTopic was: {topic_entry['t']}")
+        notify_telegram(f"⚠️ Video automation FAILED:\n{err[:500]}\nTopic was: {topic_entry['t']}")
         save_state(state)
+        append_history({
+            "ts": ts,
+            "status": "failed",
+            "topic_index": idx,
+            "topic": topic_entry["t"],
+            "error": err[:500],
+            "task_id": None,
+        })
         sys.exit(1)
 
 
