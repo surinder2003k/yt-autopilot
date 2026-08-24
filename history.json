@@ -1,1 +1,32 @@
-[{"ts": "2026-08-24T22:20:47Z", "status": "success", "topic_index": 1, "topic": "5 side hustles that pay more than a job in 2026", "title": "5 Side Hustles That Pay More Than A Job In 2026", "video_id": "DpFrfQ8NHF0", "url": "https://youtube.com/watch?v=DpFrfQ8NHF0", "tags": ["sidehustle", "money", "income"], "task_id": "auto_5a327bad"}]
+[
+  {
+    "ts": "2026-08-24T22:20:47Z",
+    "status": "success",
+    "topic_index": 1,
+    "topic": "5 side hustles that pay more than a job in 2026",
+    "title": "5 Side Hustles That Pay More Than A Job In 2026",
+    "video_id": "DpFrfQ8NHF0",
+    "url": "https://youtube.com/watch?v=DpFrfQ8NHF0",
+    "tags": [
+      "sidehustle",
+      "money",
+      "income"
+    ],
+    "task_id": "auto_5a327bad"
+  },
+  {
+    "ts": "2026-08-24T22:37:33.270068+00:00",
+    "status": "success",
+    "topic_index": 7,
+    "topic": "5 tech gadgets under $50 that feel illegal to own",
+    "title": "5 Tech Gadgets Under $50 That Feel Illegal To Own",
+    "video_id": "7WLxBm2JYuo",
+    "url": "https://youtube.com/watch?v=7WLxBm2JYuo",
+    "tags": [
+      "gadgets",
+      "tech",
+      "amazon"
+    ],
+    "task_id": "auto_43af0f14"
+  }
+]
