@@ -1,0 +1,22 @@
+# MoneyPrinterTurbo — Render.com deployment (FastAPI mode)
+FROM python:3.11-slim-bullseye
+
+WORKDIR /app
+ENV PYTHONPATH=/app \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --retries 5 --timeout 120 -r requirements.txt
+
+COPY . .
+
+RUN chmod +x render-start.sh && mkdir -p storage/tasks storage/cache_videos
+
+EXPOSE 8080
+
+# Render injects $PORT; render-start.sh generates config.toml from env vars
+CMD ["bash", "render-start.sh"]

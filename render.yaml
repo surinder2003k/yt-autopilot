@@ -1,0 +1,47 @@
+services:
+  # FastAPI backend - video generation on demand (website trigger)
+  - type: web
+    name: yt-autopilot-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: free
+    envVars:
+      - key: PEXELS_API_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: MPT_API_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: YT_REFRESH_TOKEN
+        sync: false
+      - key: YT_CLIENT_ID
+        sync: false
+      - key: YT_CLIENT_SECRET
+        sync: false
+
+  # Cron job - har 6 ghante auto video generate + upload
+  - type: cron
+    name: yt-autopilot-cron
+    runtime: docker
+    dockerfilePath: ./Dockerfile.cron
+    plan: starter
+    schedule: "0 */6 * * *"
+    envVars:
+      - key: PEXELS_API_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: YT_REFRESH_TOKEN
+        sync: false
+      - key: YT_CLIENT_ID
+        sync: false
+      - key: YT_CLIENT_SECRET
+        sync: false

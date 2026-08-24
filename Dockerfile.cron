@@ -1,0 +1,20 @@
+# Cron-only image: har 6 ghante autopilot run karta hai
+FROM python:3.11-slim-bullseye
+
+WORKDIR /app
+ENV PYTHONPATH=/app \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --retries 5 --timeout 120 -r requirements.txt
+
+COPY . .
+
+RUN mkdir -p storage/tasks storage/cache_videos
+
+# Run autopilot once per cron trigger, then exit
+CMD ["python", "autopilot.py"]

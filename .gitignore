@@ -1,0 +1,17 @@
+venv/
+storage/
+__pycache__/
+*.pyc
+config.toml
+automation.env
+client_secret*.json
+yt_token.pickle
+.env
+.playwright-cli/
+automation_state.json
+storage/
+resource/fonts/STHeitiLight.ttc
+resource/fonts/STHeitiMedium.ttc
+resource/fonts/MicrosoftYaHeiNormal.ttc
+resource/fonts/MicrosoftYaHeiBold.ttc
+resource/songs/*.mp3
