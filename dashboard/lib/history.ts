@@ -12,6 +12,8 @@ export interface RunEvent {
   tags?: string[];
   task_id?: string | null;
   error?: string;
+  video_type?: "short" | "normal";
+  aspect?: string;
 }
 
 export async function getHistory(): Promise<RunEvent[]> {

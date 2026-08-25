@@ -121,19 +121,58 @@ def pick_topic(state):
     return idx, TOPICS[idx]
 
 
-def generate_video(topic_entry):
+def pick_aspect(state):
+    """Alternate Short -> Normal -> Short -> Normal ... starting with Short.
+
+    YouTube treats a vertical (9:16) video as a Short; a 16:9 landscape video
+    is a regular upload. We flip the aspect every run so the channel gets both
+    reels and normal videos. First run is always a Short (user preference).
+    """
+    last = state.get("last_aspect", None)
+    if last == "9:16":
+        aspect = "16:9"
+        vtype = "normal"
+    else:
+        # default (None) or "16:9" -> produce a Short this run
+        aspect = "9:16"
+        vtype = "short"
+    state["last_aspect"] = aspect
+    return aspect, vtype
+
+
+# Long-form script directive so normal videos land in the 7-10 min range.
+# ~1200-1500 spoken words at ~150 wpm ≈ 8-10 minutes of audio.
+NORMAL_VIDEO_SCRIPT_PROMPT = (
+    "Write a DETAILED, long-form documentary-style script of 1200-1500 words "
+    "(at least 10 substantial paragraphs). Cover the topic in depth with "
+    "background, examples, and a strong conclusion. Do NOT make it short."
+)
+
+
+def generate_video(topic_entry, aspect="9:16", vtype="short"):
     from app.models.schema import VideoParams
     from app.services import task as task_service
     import uuid
 
     task_id = "auto_" + str(uuid.uuid4())[:8]
     lang = topic_entry["lang"]
+    if vtype == "normal":
+        # 16:9 landscape, long script -> 7-10 min video
+        paragraph_number = 10
+        script_prompt = NORMAL_VIDEO_SCRIPT_PROMPT
+        clip_duration = 5
+    else:
+        # 9:16 Short, brief
+        paragraph_number = 1
+        script_prompt = ""
+        clip_duration = 3
     params = VideoParams(
         video_subject=topic_entry["t"],
         voice_name=VOICE_MAP[lang],
-        video_aspect="9:16",
-        video_clip_duration=3,
-        paragraph_number=1,
+        video_aspect=aspect,
+        video_clip_duration=clip_duration,
+        paragraph_number=paragraph_number,
+        video_script_prompt=script_prompt,
         n_threads=2,
         video_source="pexels",
         video_language="English",         # force English script for US audience
@@ -247,13 +286,16 @@ def main():
     logger.info("=== Auto-Pilot starting ===")
     state = load_state()
     idx, topic_entry = pick_topic(state)
+    aspect, vtype = pick_aspect(state)
+    vlabel = "📱 Short (Reel)" if vtype == "short" else "🖥️ Normal Video"
+    logger.info(f"this run will produce a {vtype} ({aspect})")
     ts = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
     try:
-        task_id, video_path, result = generate_video(topic_entry)
+        task_id, video_path, result = generate_video(topic_entry, aspect=aspect, vtype=vtype)
         title, desc, tags = make_title_description(topic_entry)
         video_id = upload_to_youtube(video_path, title, desc, tags)
-        notify_telegram(f"🎬 Video posted!\n\n📌 {title}\n🔗 https://youtube.com/watch?v={video_id}\n📁 Task: {task_id}")
+        notify_telegram(f"🎬 Video posted! ({vlabel})\n\n📌 {title}\n🔗 https://youtube.com/watch?v={video_id}\n📁 Task: {task_id}")
         save_state(state)
         append_history({
             "ts": ts,
@@ -265,12 +307,14 @@ def main():
             "url": f"https://youtube.com/watch?v={video_id}",
             "tags": tags,
             "task_id": task_id,
+            "video_type": vtype,
+            "aspect": aspect,
         })
         logger.success("=== Auto-Pilot run complete ===")
     except Exception as e:
         err = str(e)
         logger.error(f"auto-pilot failed: {e}")
-        notify_telegram(f"⚠️ Video automation FAILED:\n{err[:500]}\nTopic was: {topic_entry['t']}")
+        notify_telegram(f"⚠️ Video automation FAILED ({vlabel}):\n{err[:500]}\nTopic was: {topic_entry['t']}")
         save_state(state)
         append_history({
             "ts": ts,
@@ -279,6 +323,8 @@ def main():
             "topic": topic_entry["t"],
             "error": err[:500],
             "task_id": None,
+            "video_type": vtype,
+            "aspect": aspect,
         })
         sys.exit(1)
 

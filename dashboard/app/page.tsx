@@ -175,6 +175,16 @@ export default function Page() {
                       <h3 className="truncate text-base font-medium text-[var(--foreground)]">
                         {e.title || e.topic}
                       </h3>
+                      {e.video_type === "short" && (
+                        <span className="ml-2 rounded-full border border-[var(--border)] bg-[rgba(0,240,255,0.08)] px-2 py-0.5 text-[10px] font-medium text-cyan">
+                          Short
+                        </span>
+                      )}
+                      {e.video_type === "normal" && (
+                        <span className="ml-2 rounded-full border border-[var(--border)] bg-[rgba(0,240,255,0.08)] px-2 py-0.5 text-[10px] font-medium text-cyan">
+                          7-10 min
+                        </span>
+                      )}
                     </div>
                     <p className="mt-1 truncate text-xs text-[var(--muted-foreground)]">
                       {e.topic}
