@@ -58,5 +58,21 @@
       "amazon"
     ],
     "task_id": "auto_7f620dcc"
+  },
+  {
+    "ts": "2026-08-25T06:24:48.982552+00:00",
+    "status": "success",
+    "topic_index": 0,
+    "topic": "how the rich avoid paying taxes legally",
+    "title": "How The Rich Avoid Paying Taxes Legally",
+    "video_id": "k5kDErkg-EM",
+    "url": "https://youtube.com/watch?v=k5kDErkg-EM",
+    "tags": [
+      "finance",
+      "money",
+      "taxes",
+      "rich"
+    ],
+    "task_id": "auto_602c69c0"
   }
 ]
