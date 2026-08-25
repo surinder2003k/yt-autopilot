@@ -56,16 +56,19 @@ TRENDING_NORMAL = [
     "top10","interestingfacts",
 ]
 
+HISTORY_FILE = os.environ.get("HISTORY_FILE", "history.json")
+STATE_FILE = os.environ.get("STATE_FILE", "normal_state.json")  # separate from Shorts' automation_state.json
+
 def load_used_topics():
     try:
-        with open("automation_state.json") as f:
+        with open(STATE_FILE) as f:
             return set(json.load(f).get("used_topics", []))
     except Exception:
         return set()
 
 def save_used_topics(used):
     state = {"used_topics": list(used), "last_run": time.strftime("%Y-%m-%dT%H:%M:%S"), "last_aspect": "16:9"}
-    with open("automation_state.json", "w") as f:
+    with open(STATE_FILE, "w") as f:
         json.dump(state, f, indent=2)
 
 def pick_topic():

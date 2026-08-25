@@ -10,55 +10,79 @@ jobs:
     name: Generate & Upload Long-Form Normal Video (7-15 min)
     runs-on: ubuntu-latest
     env:
-      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
-      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
-      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      HUGGINGFACE_API_TOKEN: ${{ secrets.HUGGINGFACE_API_TOKEN }}
-      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      EDGE_TTS_TIMEOUT: 180
+      LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+      LLM_MODEL: ${{ secrets.LLM_MODEL }}
+      ENABLE_TTS: "true"
+      TTS_PROVIDER: "edge"
+      TTS_VOICE: "en-US-ChristopherNeural"
+      RESOLUTION: "1080P"
+      EDGE_TTS_TIMEOUT: "180"
+      DOCKER_BUILDKIT: "1"
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_PROJECT_ID: ${{ secrets.YOUTUBE_PROJECT_ID }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      YOUTUBE_CLIENT_SECRET_JSON: ${{ secrets.YOUTUBE_CLIENT_SECRET_JSON }}
+      HISTORY_FILE: /data/history.json
+      STATE_FILE: /data/normal_state.json
     steps:
-      - name: Checkout (with automation state)
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Create data volume from repo
+      - name: Build Docker image (local, no external pull)
+        run: docker build -f Dockerfile.cron -t autopilot-normal .
+
+      - name: Create data volume
+        run: docker volume create yt-autopilot-data
+
+      - name: Copy current history + normal state into volume
         run: |
-          mkdir -p /tmp/norm-data
-          cp history.json /tmp/norm-data/history.json
-          cp automation_state.json /tmp/norm-data/automation_state.json 2>/dev/null || echo "{}" > /tmp/norm-data/automation_state.json
-          docker volume create norm-data >/dev/null || true
-          docker run --rm -v norm-data:/data -v /tmp/norm-data:/src alpine sh -c "cp /src/history.json /data/ 2>/dev/null; cp /src/automation_state.json /data/ 2>/dev/null; ls -la /data"
+          docker run --rm -v yt-autopilot-data:/data -v "$PWD":/repo alpine sh -c '
+            if [ -f /repo/history.json ]; then cp /repo/history.json /data/history.json; fi
+            if [ -f /repo/normal_state.json ]; then cp /repo/normal_state.json /data/normal_state.json; fi
+          '
 
       - name: Run normal video generator
         run: |
           docker run --rm \
+            -v yt-autopilot-data:/data \
             -e PEXELS_API_KEY="${{ secrets.PEXELS_API_KEY }}" \
             -e OPENROUTER_API_KEY="${{ secrets.OPENROUTER_API_KEY }}" \
+            -e YOUTUBE_CLIENT_SECRET="${{ secrets.YOUTUBE_CLIENT_SECRET }}" \
             -e TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}" \
             -e TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -e YT_REFRESH_TOKEN="${{ secrets.YT_REFRESH_TOKEN }}" \
-            -e YT_CLIENT_ID="${{ secrets.YT_CLIENT_ID }}" \
-            -e YT_CLIENT_SECRET="${{ secrets.YT_CLIENT_SECRET }}" \
-            -e HUGGINGFACE_API_TOKEN="${{ secrets.HUGGINGFACE_API_TOKEN }}" \
+            -e LLM_PROVIDER="${{ secrets.LLM_PROVIDER }}" \
+            -e LLM_MODEL="${{ secrets.LLM_MODEL }}" \
+            -e ENABLE_TTS="true" \
+            -e TTS_PROVIDER="edge" \
+            -e TTS_VOICE="en-US-ChristopherNeural" \
+            -e RESOLUTION="1080P" \
             -e EDGE_TTS_TIMEOUT="180" \
-            -v norm-data:/data \
-            -v ${{ github.workspace }}:/app/repo \
-            harishkumar01/money-printer-turbo:runner \
-            bash -lc "cp -r /app/repo/* /app/MoneyPrinterTurbo/ 2>/dev/null; cd /app/MoneyPrinterTurbo; cp /data/automation_state.json ./automation_state.json 2>/dev/null || true; python normal_video.py"
+            -e YOUTUBE_CLIENT_ID="${{ secrets.YOUTUBE_CLIENT_ID }}" \
+            -e YOUTUBE_PROJECT_ID="${{ secrets.YOUTUBE_PROJECT_ID }}" \
+            -e YOUTUBE_REFRESH_TOKEN="${{ secrets.YOUTUBE_REFRESH_TOKEN }}" \
+            -e YOUTUBE_CLIENT_SECRET_JSON="${{ secrets.YOUTUBE_CLIENT_SECRET_JSON }}" \
+            -e HISTORY_FILE=/data/history.json \
+            -e STATE_FILE=/data/normal_state.json \
+            autopilot-normal \
+            python normal_video.py
 
-      - name: Persist automation state + history back to repo
+      - name: Persist history + state back to repo
         if: always()
         run: |
-          docker run --rm -v norm-data:/data -v ${{ github.workspace }}:/app/repo alpine sh -c "cp /data/automation_state.json /app/repo/automation_state.json 2>/dev/null; cp /data/history.json /app/repo/history.json 2>/dev/null; true"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add automation_state.json history.json
-          git commit -m "chore: update automation state + history (normal video run)" || echo "no changes"
-          git push || echo "push failed"
+          docker run --rm -v yt-autopilot-data:/data -v "$PWD":/repo alpine sh -c '
+            if [ -f /data/history.json ]; then cp /data/history.json /repo/history.json; fi
+            if [ -f /data/normal_state.json ]; then cp /data/normal_state.json /repo/normal_state.json; fi
+          '
+          git config user.name "autopilot-bot"
+          git config user.email "bot@noreply.local"
+          git add history.json normal_state.json
+          git commit -m "chore: update history + normal state [skip ci]" || echo "nothing to commit"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/surinder2003k/yt-autopilot.git HEAD:main || echo "push failed"
