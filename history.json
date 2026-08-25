@@ -116,5 +116,22 @@
     "task_id": null,
     "video_type": "normal",
     "aspect": "16:9"
+  },
+  {
+    "ts": "2026-08-25T10:34:52.095480+00:00",
+    "status": "success",
+    "topic_index": 11,
+    "topic": "why NASA is going back to the moon in 2027",
+    "title": "Why Nasa Is Going Back To The Moon In 2027",
+    "video_id": "VUzft-4rdn0",
+    "url": "https://youtube.com/watch?v=VUzft-4rdn0",
+    "tags": [
+      "nasa",
+      "moon",
+      "space"
+    ],
+    "task_id": "auto_cec3eb0e",
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
