@@ -8,13 +8,22 @@ next-env.d.ts
 # Python
 __pycache__/
 *.pyc
+venv/
 automation.env
 automation_state.json
 yt_token.pickle
 config.toml
+
+# Local junk / caches
+.playwright-cli/
+resource/fonts/
+resource/songs/
+bot_token_full.txt
+telegram_token.txt
 
 # OS
 .DS_Store
 
 # secrets
 client_secret*.json
+dashboard/.env.local
