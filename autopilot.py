@@ -194,6 +194,7 @@ def generate_video(topic_entry, aspect="9:16", vtype="short"):
     params = VideoParams(
         video_subject=topic_entry["t"],
         video_script=script,
+        video_terms=[topic_entry["t"], "facts", "cinematic", "technology", "nature"],
         voice_name=VOICE_MAP[lang],
         video_aspect=aspect,
         video_clip_duration=clip_duration,

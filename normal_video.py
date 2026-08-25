@@ -154,6 +154,7 @@ def generate_video(script, title, desc, tags):
     params = VideoParams(
         video_subject=title,
         video_script=script,
+        video_terms=[title, "facts", "cinematic", "technology", "nature"],
         video_aspect="16:9",   # 16:9 landscape normal video
         video_language="en",
         voice_name="female_or_male_optimized",

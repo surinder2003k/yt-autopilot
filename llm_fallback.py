@@ -23,14 +23,18 @@ except Exception:
 
 
 # ---- Free model catalogs (per provider) -------------------------------------
+# Live-verified 2026-08-25 via GET /api/v1/models (only currently-served slugs)
 OPENROUTER_MODELS = [
-    "moonshotai/kimi-k2.5-free",
-    "google/gemma-3-12b-it:free",
-    "deepseek/deepseek-r1-0528-qwen3-8b:free",
-    "meta-llama/llama-4-maverick:free",
-    "qwen/qwen3-32b:free",
-    "thudm/glm-4.5-air:free",
-    "microsoft/mai-ds-r1:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "z-ai/glm-5.2:free",
+    "google/gemma-4-31b-it:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "minimax/minimax-m3:free",
+    "minimax/minimax-m2.7:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "liquid/lfm-2.5-2.6b:free",
+    "dots-studio/dots-3-note-preview:free",
 ]
 
 OPENCODE_ZEN_MODELS = [
