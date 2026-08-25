@@ -148,6 +148,13 @@ NORMAL_VIDEO_SCRIPT_PROMPT = (
     "background, examples, and a strong conclusion. Do NOT make it short."
 )
 
+# ~1 minute Short: ~140-160 spoken words ≈ 1 min at ~150 wpm.
+SHORT_VIDEO_SCRIPT_PROMPT = (
+    "Write a punchy, fast-paced SHORT script of 140-160 words (3 short "
+    "paragraphs, hooks in the first line, no fluff). This is a ~1 minute "
+    "vertical reel — keep it tight and energetic."
+)
+
 
 def generate_video(topic_entry, aspect="9:16", vtype="short"):
     from app.models.schema import VideoParams
@@ -162,9 +169,10 @@ def generate_video(topic_entry, aspect="9:16", vtype="short"):
         script_prompt = NORMAL_VIDEO_SCRIPT_PROMPT
         clip_duration = 5
     else:
-        # 9:16 Short, brief
-        paragraph_number = 1
-        script_prompt = ""
+        # 9:16 Short, ~1 minute reel.
+        # ~150 spoken words at ~150 wpm ≈ 1 minute of audio.
+        paragraph_number = 3
+        script_prompt = SHORT_VIDEO_SCRIPT_PROMPT
         clip_duration = 3
     params = VideoParams(
         video_subject=topic_entry["t"],
