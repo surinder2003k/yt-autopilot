@@ -68,6 +68,28 @@ TOPICS = [
     {"t": "signs someone is lying to you instantly", "lang": "en", "tags": ["psychology","lies","bodylanguage"]},
 ]
 
+# Evergreen viral hashtags appended to EVERY post for reach/trending.
+# Mixed pool so each upload gets a strong, varied discovery signal on
+# YouTube Shorts, Reels and search (avoid identical-tag spam flags).
+TRENDING_HASHTAGS = [
+    "shorts", "viral", "trending", "fyp", "foryou", "youtubeshorts",
+    "reels", "explore", "ai", "facts", "didyouknow", "viralfacts",
+    "trendingnow", "foryoupage", "learnontiktok", "motivation",
+]
+
+def trending_block(vtype):
+    """Return (description_hashtags, tag_list) of trending tags for a post.
+
+    Shorts get the shorts-oriented tags first so vertical discovery wins;
+    normal videos get the broader viral set. Deterministic per call so the
+    dashboard and the upload always agree.
+    """
+    tags = list(TRENDING_HASHTAGS)
+    if vtype == "short":
+        # push shorts-relevant tags to the front for vertical reach
+        tags.sort(key=lambda t: 0 if t in ("shorts", "youtubeshorts", "reels", "fyp") else 1)
+    return tags
+
 VOICE_MAP = {
     "en": "en-US-ChristopherNeural",      # deep American male
     "hi": "hi-IN-MadhurNeural",
@@ -199,11 +221,20 @@ def generate_video(topic_entry, aspect="9:16", vtype="short"):
     return task_id, videos[0], result
 
 
-def make_title_description(topic_entry):
+def make_title_description(topic_entry, vtype="short"):
     title = topic_entry["t"].title()[:95]
-    tags = topic_entry["tags"]
-    desc = f"{topic_entry['t']}\n\n#{' #'.join(tags)}\n\nGenerated with AI."
-    return title, desc, tags
+    # Topic-specific tags + evergreen trending hashtags for reach.
+    trending = trending_block(vtype)
+    all_tags = list(dict.fromkeys(list(topic_entry["tags"]) + trending))  # dedupe, keep order
+    # Description: a couple of hook lines + full hashtag wall (helps trending).
+    hashtag_line = " ".join(f"#{t}" for t in all_tags)
+    desc = (
+        f"{topic_entry['t'].title()}\n\n"
+        f"🔥 Like & Subscribe for more!\n\n"
+        f"{hashtag_line}\n\n"
+        f"#shorts #viral #trending"
+    )
+    return title, desc, all_tags
 
 
 def upload_to_youtube(video_path, title, desc, tags):
@@ -301,7 +332,7 @@ def main():
 
     try:
         task_id, video_path, result = generate_video(topic_entry, aspect=aspect, vtype=vtype)
-        title, desc, tags = make_title_description(topic_entry)
+        title, desc, tags = make_title_description(topic_entry, vtype=vtype)
         video_id = upload_to_youtube(video_path, title, desc, tags)
         notify_telegram(f"🎬 Video posted! ({vlabel})\n\n📌 {title}\n🔗 https://youtube.com/watch?v={video_id}\n📁 Task: {task_id}")
         save_state(state)
