@@ -74,5 +74,20 @@
       "rich"
     ],
     "task_id": "auto_602c69c0"
+  },
+  {
+    "ts": "2026-08-25T09:05:10.156218+00:00",
+    "status": "success",
+    "topic_index": 12,
+    "topic": "what would happen if the ocean disappeared",
+    "title": "What Would Happen If The Ocean Disappeared",
+    "video_id": "ajwBvU_N33M",
+    "url": "https://youtube.com/watch?v=ajwBvU_N33M",
+    "tags": [
+      "ocean",
+      "science",
+      "earth"
+    ],
+    "task_id": "auto_73056195"
   }
 ]
