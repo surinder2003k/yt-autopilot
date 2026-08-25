@@ -133,5 +133,15 @@
     "task_id": "auto_cec3eb0e",
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-08-25T12:23:06.161691+00:00",
+    "status": "failed",
+    "topic_index": 13,
+    "topic": "psychological tricks that actually work on people",
+    "error": "video generation failed: failed to generate video search terms",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
