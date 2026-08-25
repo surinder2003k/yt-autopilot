@@ -9,6 +9,8 @@ jobs:
   normal-video:
     name: Generate & Upload Long-Form Normal Video (7-15 min)
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
       OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
@@ -71,8 +73,8 @@ jobs:
             -e YOUTUBE_CLIENT_SECRET_JSON="${{ secrets.YOUTUBE_CLIENT_SECRET_JSON }}" \
             -e HISTORY_FILE=/data/history.json \
             -e STATE_FILE=/data/normal_state.json \
-            autopilot-normal \
-            python normal_video.py
+            -e MAIN_SCRIPT=normal_video.py \
+            autopilot-normal
 
       - name: Persist history + state back to repo
         if: always()

@@ -51,4 +51,4 @@ sonilo_api_key = ""
 EOF
 
 echo "config.toml generated"
-exec python autopilot.py
+exec python "${MAIN_SCRIPT:-autopilot.py}"
