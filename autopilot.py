@@ -165,6 +165,8 @@ def generate_video(topic_entry, aspect="9:16", vtype="short"):
     from app.services import task as task_service
     import uuid
 
+    from llm_fallback import generate_script_with_fallback
+
     task_id = "auto_" + str(uuid.uuid4())[:8]
     lang = topic_entry["lang"]
     if vtype == "normal":
@@ -178,8 +180,20 @@ def generate_video(topic_entry, aspect="9:16", vtype="short"):
         paragraph_number = 3
         script_prompt = SHORT_VIDEO_SCRIPT_PROMPT
         clip_duration = 3
+
+    # Pre-generate the script with multi-provider fallback (OpenRouter ->
+    # OpenCode Zen -> Gemini -> local template). Inject so MPT never makes
+    # its own (rate-limited) LLM call.
+    script = generate_script_with_fallback(
+        video_subject=topic_entry["t"],
+        language="English",
+        paragraph_number=paragraph_number,
+        video_script_prompt=script_prompt,
+    )
+    logger.info(f"script ready ({len(script)} chars) for topic: {topic_entry['t']}")
     params = VideoParams(
         video_subject=topic_entry["t"],
+        video_script=script,
         voice_name=VOICE_MAP[lang],
         video_aspect=aspect,
         video_clip_duration=clip_duration,

@@ -182,16 +182,16 @@ def main():
     topic_entry = pick_topic()
     print(f"[INFO] topic: {topic_entry['t']}")
 
-    # 1) Generate long script
-    from app.services.llm import generate_script
-    script = generate_script(
+    # 1) Generate long script (with multi-provider fallback -> local template)
+    from llm_fallback import generate_script_with_fallback
+    script = generate_script_with_fallback(
         video_subject=topic_entry["t"],
         language="English",
         paragraph_number=12,
         video_script_prompt=NORMAL_VIDEO_SCRIPT_PROMPT,
     )
     if not script:
-        print("[ERROR] script generation failed")
+        print("[ERROR] script generation failed (even local template)")
         sys.exit(1)
     print(f"[INFO] script length: {len(script)} chars / ~{len(script.split())} words")
 
