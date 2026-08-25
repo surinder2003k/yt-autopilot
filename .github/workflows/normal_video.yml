@@ -54,30 +54,39 @@ jobs:
           '
 
       - name: Run normal video generator
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENCODE_ZEN_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          HISTORY_FILE: /data/history.json
+          STATE_FILE: /data/normal_state.json
         run: |
           docker run --rm \
             -v yt-autopilot-data:/data \
-            -e PEXELS_API_KEY="${{ secrets.PEXELS_API_KEY }}" \
-            -e OPENROUTER_API_KEY="${{ secrets.OPENROUTER_API_KEY }}" \
-            -e OPENCODE_ZEN_API_KEY="${{ secrets.OPENCODE_ZEN_API_KEY }}" \
-            -e GEMINI_API_KEY="${{ secrets.GEMINI_API_KEY }}" \
-            -e YOUTUBE_CLIENT_SECRET="${{ secrets.YOUTUBE_CLIENT_SECRET }}" \
-            -e TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}" \
-            -e TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -e LLM_PROVIDER="${{ secrets.LLM_PROVIDER }}" \
-            -e LLM_MODEL="${{ secrets.LLM_MODEL }}" \
+            -e PEXELS_API_KEY="$PEXELS_API_KEY" \
+            -e OPENROUTER_API_KEY="$OPENROUTER_API_KEY" \
+            -e OPENCODE_ZEN_API_KEY="$OPENCODE_ZEN_API_KEY" \
+            -e GEMINI_API_KEY="$GEMINI_API_KEY" \
+            -e YT_REFRESH_TOKEN="$YT_REFRESH_TOKEN" \
+            -e YT_CLIENT_ID="$YT_CLIENT_ID" \
+            -e YT_CLIENT_SECRET="$YT_CLIENT_SECRET" \
+            -e TELEGRAM_BOT_TOKEN="$TELEGRAM_BOT_TOKEN" \
+            -e TELEGRAM_CHAT_ID="$TELEGRAM_CHAT_ID" \
+            -e LLM_PROVIDER="$LLM_PROVIDER" \
+            -e LLM_MODEL="$LLM_MODEL" \
             -e ENABLE_TTS="true" \
             -e TTS_PROVIDER="edge" \
             -e TTS_VOICE="en-US-ChristopherNeural" \
             -e RESOLUTION="1080P" \
             -e EDGE_TTS_TIMEOUT="180" \
-            -e YOUTUBE_CLIENT_ID="${{ secrets.YOUTUBE_CLIENT_ID }}" \
-            -e YOUTUBE_PROJECT_ID="${{ secrets.YOUTUBE_PROJECT_ID }}" \
-            -e YOUTUBE_REFRESH_TOKEN="${{ secrets.YOUTUBE_REFRESH_TOKEN }}" \
-            -e YOUTUBE_CLIENT_SECRET_JSON="${{ secrets.YOUTUBE_CLIENT_SECRET_JSON }}" \
-            -e YT_REFRESH_TOKEN="${{ secrets.YOUTUBE_REFRESH_TOKEN }}" \
-            -e YT_CLIENT_ID="${{ secrets.YOUTUBE_CLIENT_ID }}" \
-            -e YT_CLIENT_SECRET="${{ secrets.YOUTUBE_CLIENT_SECRET }}" \
             -e HISTORY_FILE=/data/history.json \
             -e STATE_FILE=/data/normal_state.json \
             -e MAIN_SCRIPT=normal_video.py \
