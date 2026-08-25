@@ -4,69 +4,76 @@ Fully automated **YouTube Shorts** pipeline. Every 6 hours it picks a US-based
 niche topic, generates a Short with AI (script → Pexels footage → TTS → render),
 uploads it to YouTube, and pings Telegram.
 
+> **Live Dashboard:** https://yt-autopilot-esfrsu6ar-sendltestmaill-3608s-projects.vercel.app
+> **Live Channel:** [@DesiFragLord](https://www.youtube.com/@DesiFragLord)
+
 ---
 
 ## ✨ What it does
 
-| Stage | Tool |
-|-------|------|
-| Topic pick | rotating US niche list (finance / AI / space / psych) |
-| Script | OpenRouter free model `nvidia/nemotron-3-super-120b-a12b:free` |
-| Footage | Pexels stock videos |
-| Voice | Edge-TTS (`en-US-ChristopherNeural`) |
-| Render | MoneyPrinterTurbo (1080×1920, 9:16) |
-| Upload | YouTube Data API (OAuth refresh token) |
-| Notify | Telegram **only** on success or failure |
+| Step | Tool | Notes |
+|------|------|-------|
+| 1. Topic | **OpenRouter** (nvidia/nemotron-3-super-120b-a12b:free) | Picks from curated US niches |
+| 2. Script | Same LLM | Hindi/English bilingual script |
+| 3. Footage | **Pexels API** (free) | Vertical clips, auto-download |
+| 4. Voice | **edge-tts** (free, offline) | Hindi + English mixed |
+| 5. Render | **MoviePy** + **Playwright** (headless Chrome) | 9:16, captions, watermark |
+| 6. Upload | **YouTube Data API v3** (OAuth refresh token) | Shorts format, tags, description |
+| 7. Notify | **Telegram Bot** | ✅ success / ❌ fail only |
 
-## ⏰ Schedule
+---
 
-GitHub Actions cron — `0 */6 * * *` (UTC) → **5:30, 11:30, 17:30, 23:30 IST**.
-Manual trigger also available under Actions → "YouTube Auto-Pilot" → Run workflow.
+## 🔧 Setup (if you want your own)
 
-## 🖥️ Dashboard (read-only)
+### Prerequisites
+- **GitHub repo** (this one, forked)
+- **GitHub Actions secrets** (add all 7 below):
+  - `PEXELS_API_KEY` — Pexels free API key
+  - `OPENROUTER_API_KEY` — OpenRouter free tier key
+  - `TELEGRAM_BOT_TOKEN` — BotFather token
+  - `TELEGRAM_CHAT_ID` — Your chat ID
+  - `YT_REFRESH_TOKEN` — YouTube OAuth refresh token
+  - `YT_CLIENT_ID` — Google Cloud OAuth client ID
+  - `YT_CLIENT_SECRET` — Google Cloud OAuth client secret
+- **Vercel project** linked to `dashboard/` folder (auto-deploy on push)
 
-A Next.js monitor deployed on Vercel. It reads `history.json` (committed back by
-the pipeline after every run) and shows:
+### How it runs
+1. GitHub Actions cron (`0 */6 * * *`) fires
+2. Docker container runs `autopilot.py` (generates config from env vars)
+3. Video built → uploaded to YouTube → history.json updated → pushed back
+4. Telegram gets one-line result
 
-- Total runs / posted / failed / success rate
-- Live pipeline health banner
-- Full run history with links to each video
+---
 
-Open 👉 **https://yt-autopilot.vercel.app**
+## 📊 Monitoring
 
-## 🔧 Secrets (GitHub → Settings → Secrets → Actions)
+- **Dashboard** (Vercel): live history, status, YouTube links
+- **GitHub Actions**: run logs, manual trigger, history commits
+- **Telegram**: only post/fail notifications
 
-| Secret | Purpose |
-|--------|---------|
-| `PEXELS_API_KEY` | stock footage |
-| `OPENROUTER_API_KEY` | free LLM for scripts |
-| `TELEGRAM_BOT_TOKEN` | notification bot |
-| `TELEGRAM_CHAT_ID` | your chat |
-| `YT_REFRESH_TOKEN` | YouTube upload OAuth |
-| `YT_CLIENT_ID` | Google Cloud OAuth |
-| `YT_CLIENT_SECRET` | Google Cloud OAuth |
+---
 
-## 📁 Repo layout
+## 📝 Files of interest
 
-```
-autopilot.py              # pipeline entrypoint (runs once per cron trigger)
-Dockerfile.cron           # lightweight Playwright image for CI
-entrypoint-cron.sh        # generates config.toml from secrets, runs autopilot
-requirements.txt          # python deps (incl. youtube upload libs)
-history.json              # run log (read by dashboard)
-dashboard/                # Next.js read-only monitor (Vercel)
-vercel.json               # Vercel deploy config
-.github/workflows/        # GitHub Actions: run + commit history
-```
+| File | Purpose |
+|------|---------|
+| `autopilot.py` | Standalone pipeline (cron entrypoint) |
+| `Dockerfile.cron` | Container for GitHub Actions run |
+| `entrypoint-cron.sh` | Generates `config.toml` from env vars |
+| `requirements.txt` | Python deps |
+| `.github/workflows/autopilot.yml` | Cron + commit-back workflow |
+| `dashboard/` | Next.js 15 read-only monitor |
+| `history.json` | Auto-maintained run log (updated by workflow) |
 
-## 🚀 Local run (optional)
+---
 
-```bash
-pip install -r requirements.txt
-export PEXELS_API_KEY=... OPENROUTER_API_KEY=... YT_REFRESH_TOKEN=...  # etc.
-python autopilot.py
-```
+## 🔐 Security
 
-## 📜 License
+- **No secrets in repo** — all keys in GitHub Actions secrets
+- **Dashboard read-only** — only fetches public `history.json`
+- **YouTube OAuth** uses refresh token (short-lived access tokens)
+- **Telegram bot** only sends, never receives commands
 
-MIT — automate responsibly.
+---
+
+*Built with free tiers only: GitHub Actions (cron), OpenRouter (free model), Pexels (free footage), edge-tts (free TTS), Vercel (free hosting).*
