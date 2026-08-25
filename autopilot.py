@@ -144,31 +144,13 @@ def pick_topic(state):
 
 
 def pick_aspect(state):
-    """Alternate Short -> Normal -> Short -> Normal ... starting with Short.
+    """Shorts-only automation (per user request). Always 9:16 vertical Short.
 
-    YouTube treats a vertical (9:16) video as a Short; a 16:9 landscape video
-    is a regular upload. We flip the aspect every run so the channel gets both
-    reels and normal videos. First run is always a Short (user preference).
+    YouTube treats a vertical (9:16) video as a Short. Normal 7-15 min videos
+    now run on a SEPARATE 12h schedule via normal_video.py / normal_video.yml.
     """
-    last = state.get("last_aspect", None)
-    if last == "9:16":
-        aspect = "16:9"
-        vtype = "normal"
-    else:
-        # default (None) or "16:9" -> produce a Short this run
-        aspect = "9:16"
-        vtype = "short"
-    state["last_aspect"] = aspect
-    return aspect, vtype
+    return "9:16", "short"
 
-
-# Long-form script directive so normal videos land in the 7-10 min range.
-# ~1200-1500 spoken words at ~150 wpm ≈ 8-10 minutes of audio.
-NORMAL_VIDEO_SCRIPT_PROMPT = (
-    "Write a DETAILED, long-form documentary-style script of 1200-1500 words "
-    "(at least 10 substantial paragraphs). Cover the topic in depth with "
-    "background, examples, and a strong conclusion. Do NOT make it short."
-)
 
 # ~1 minute Short: ~140-160 spoken words ≈ 1 min at ~150 wpm.
 SHORT_VIDEO_SCRIPT_PROMPT = (

@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   run-autopilot:
-    name: Generate & Upload (Shorts + Normal, alternating)
+    name: Generate & Upload Short (every 6h)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     concurrency:
