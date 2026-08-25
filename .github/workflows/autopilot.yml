@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   run-autopilot:
-    name: Generate & Upload Short
+    name: Generate & Upload (Shorts + Normal, alternating)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     concurrency:
@@ -39,6 +39,7 @@ jobs:
         run: |
           mkdir -p /tmp/autopilot-data
           cp history.json /tmp/autopilot-data/history.json
+          cp automation_state.json /tmp/autopilot-data/automation_state.json 2>/dev/null || true
           docker run --rm \
             -e PEXELS_API_KEY="${{ secrets.PEXELS_API_KEY }}" \
             -e OPENROUTER_API_KEY="${{ secrets.OPENROUTER_API_KEY }}" \
@@ -48,15 +49,17 @@ jobs:
             -e YT_CLIENT_ID="${{ secrets.YT_CLIENT_ID }}" \
             -e YT_CLIENT_SECRET="${{ secrets.YT_CLIENT_SECRET }}" \
             -e HISTORY_FILE=/data/history.json \
+            -e STATE_FILE=/data/automation_state.json \
             -v /tmp/autopilot-data:/data \
             autopilot
 
-      - name: Commit run history back to repo (for dashboard)
+      - name: Commit run history + state back to repo (for dashboard & alternation)
         if: always()
         run: |
           cp /tmp/autopilot-data/history.json history.json
+          cp /tmp/autopilot-data/automation_state.json automation_state.json 2>/dev/null || true
           git config user.name "autopilot-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add history.json
-          git diff --cached --quiet || git commit -m "chore: update run history [skip ci]"
+          git add history.json automation_state.json
+          git diff --cached --quiet || git commit -m "chore: update run history + state [skip ci]"
           git push

@@ -10,7 +10,6 @@ __pycache__/
 *.pyc
 venv/
 automation.env
-automation_state.json
 yt_token.pickle
 config.toml
 
