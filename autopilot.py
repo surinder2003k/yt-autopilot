@@ -254,6 +254,7 @@ def upload_to_youtube(video_path, title, desc, tags):
     rt = os.environ.get("YT_REFRESH_TOKEN", "").strip()
     cid = os.environ.get("YT_CLIENT_ID", "").strip()
     csec = os.environ.get("YT_CLIENT_SECRET", "").strip()
+    logger.info(f"[DEBUG] YT env → rt={'SET' if rt else 'EMPTY'} cid={'SET' if cid else 'EMPTY'} csec={'SET' if csec else 'EMPTY'}")
     if rt and cid and csec:
         creds = Credentials(
             token=None,
