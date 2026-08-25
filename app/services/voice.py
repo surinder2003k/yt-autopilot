@@ -699,19 +699,36 @@ def create_edge_tts_communicate(
 
 def get_edge_tts_timeout_seconds() -> Union[float, None]:
     """
-    获取 Azure TTS V1 单次流式请求的超时时间。
+    Get the timeout (seconds) for a single Azure TTS V1 streaming request.
 
-    背景：
-    Edge consumer TTS 在网络不通、服务端限流、voice 与文本语言不匹配等场景下，
-    可能长时间卡在 `stream_sync()` 内部，日志只停留在 `start`。这里提供一个
-    默认超时，避免 WebUI 任务长期无反馈。
+    Background:
+    Edge consumer TTS may hang inside `stream_sync()` under poor network,
+    server rate-limiting, or voice/text language mismatch, leaving logs stuck
+    at `start`. A default timeout avoids WebUI tasks hanging with no feedback.
 
-    使用方式：
-    - 默认 30 秒，覆盖常见短视频脚本的首包等待时间；
-    - 如用户处于慢网络或代理环境，可在 `config.toml` 里设置
-      `edge_tts_timeout = 60`；
-    - 设置为 0 或负数表示显式禁用超时，保留完全向后兼容。
+    Resolution order (highest priority first):
+    - Environment variable `EDGE_TTS_TIMEOUT` (lets CI / slow networks raise it
+      without editing config.toml, e.g. 180 for long-form 7-10 min scripts).
+    - `edge_tts_timeout` key in config.toml (default 30s covers common
+      short-video script first-byte wait).
+    - Set to 0 or negative to explicitly disable the timeout (full backward
+      compatibility).
     """
+    import os as _os
+
+    env_val = _os.environ.get("EDGE_TTS_TIMEOUT")
+    if env_val is not None:
+        try:
+            timeout_seconds = float(env_val)
+            if timeout_seconds <= 0:
+                return None
+            return timeout_seconds
+        except (TypeError, ValueError):
+            logger.warning(
+                "invalid EDGE_TTS_TIMEOUT env: "
+                f"{env_val}, falling back to config.toml"
+            )
+
     raw_timeout = config.app.get(
         "edge_tts_timeout", _DEFAULT_EDGE_TTS_TIMEOUT_SECONDS
     )

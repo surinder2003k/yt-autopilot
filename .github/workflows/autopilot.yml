@@ -50,6 +50,7 @@ jobs:
             -e YT_CLIENT_SECRET="${{ secrets.YT_CLIENT_SECRET }}" \
             -e HISTORY_FILE=/data/history.json \
             -e STATE_FILE=/data/automation_state.json \
+            -e EDGE_TTS_TIMEOUT=180 \
             -v /tmp/autopilot-data:/data \
             autopilot
 
