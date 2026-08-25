@@ -106,5 +106,15 @@
     "task_id": "auto_eaf639de",
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-08-25T10:22:48.967161+00:00",
+    "status": "failed",
+    "topic_index": 6,
+    "topic": "the truth about electric cars nobody tells you",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "normal",
+    "aspect": "16:9"
   }
 ]
