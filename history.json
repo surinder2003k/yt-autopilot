@@ -89,5 +89,22 @@
       "earth"
     ],
     "task_id": "auto_73056195"
+  },
+  {
+    "ts": "2026-08-25T10:08:01.924873+00:00",
+    "status": "success",
+    "topic_index": 2,
+    "topic": "why credit scores matter more than you think",
+    "title": "Why Credit Scores Matter More Than You Think",
+    "video_id": "z9B1kkMXENU",
+    "url": "https://youtube.com/watch?v=z9B1kkMXENU",
+    "tags": [
+      "credit",
+      "finance",
+      "scores"
+    ],
+    "task_id": "auto_eaf639de",
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
