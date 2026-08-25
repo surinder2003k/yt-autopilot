@@ -43,5 +43,20 @@
       "bodylanguage"
     ],
     "task_id": "auto_921af63f"
+  },
+  {
+    "ts": "2026-08-25T00:31:56.209179+00:00",
+    "status": "success",
+    "topic_index": 7,
+    "topic": "5 tech gadgets under $50 that feel illegal to own",
+    "title": "5 Tech Gadgets Under $50 That Feel Illegal To Own",
+    "video_id": "e7hgYnDKUtE",
+    "url": "https://youtube.com/watch?v=e7hgYnDKUtE",
+    "tags": [
+      "gadgets",
+      "tech",
+      "amazon"
+    ],
+    "task_id": "auto_7f620dcc"
   }
 ]
