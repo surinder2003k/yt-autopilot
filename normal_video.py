@@ -154,14 +154,14 @@ def generate_video(script, title, desc, tags):
     params = VideoParams(
         video_subject=title,
         video_script=script,
-        video_aspect="landscape",   # 16:9 normal video
+        video_aspect="16:9",   # 16:9 landscape normal video
         video_language="en",
         voice_name="female_or_male_optimized",
         bgm_type="random",
         bgm_volume=0.2,
         video_concat_mode="random",
         video_clip_duration=5,
-        video_transition_mode="random",
+        video_transition_mode="FadeIn",
         video_count=1,
         custom_audio_file=audio_path,     # <-- bypass MPT TTS, use our chunked audio
     )
