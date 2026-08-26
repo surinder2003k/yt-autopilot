@@ -3,6 +3,7 @@
 import { useAuth } from "@/components/LoginGate";
 import type { RunEvent } from "@/lib/history";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const HISTORY_URL =
   "https://raw.githubusercontent.com/surinder2003k/yt-autopilot/main/history.json";
@@ -152,39 +153,43 @@ export default function Page() {
 
       {/* ---- LIVE NEXT-POST COUNTDOWN ---- */}
       <section className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="glass glow-border p-4">
-          <div className="flex items-center justify-between">
-            <p className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">
-              Next Short (every 6h)
+        {[
+          {
+            label: "Next Short (every 6h)",
+            badge: "Short",
+            cd: shortCd.text,
+            ist: fmtClockIST(nextShort),
+          },
+          {
+            label: "Next Normal Video (every 12h)",
+            badge: "7-10 min",
+            cd: normalCd.text,
+            ist: fmtClockIST(nextNormal),
+          },
+        ].map((c, i) => (
+          <motion.div
+            key={c.label}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: i * 0.08 }}
+            className="glass glow-border p-4"
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">
+                {c.label}
+              </p>
+              <span className="rounded-full border border-[var(--border)] bg-[rgba(0,240,255,0.08)] px-2 py-0.5 text-[10px] font-medium text-cyan">
+                {c.badge}
+              </span>
+            </div>
+            <p className="mt-2 text-3xl font-semibold text-cyan glow-text tabular-nums">
+              {c.cd}
             </p>
-            <span className="rounded-full border border-[var(--border)] bg-[rgba(0,240,255,0.08)] px-2 py-0.5 text-[10px] font-medium text-cyan">
-              Short
-            </span>
-          </div>
-          <p className="mt-2 text-3xl font-semibold text-cyan glow-text tabular-nums">
-            {shortCd.text}
-          </p>
-          <p className="mt-1 text-xs text-[var(--muted-foreground)]">
-            posts at {fmtClockIST(nextShort)} IST
-          </p>
-        </div>
-
-        <div className="glass glow-border p-4">
-          <div className="flex items-center justify-between">
-            <p className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">
-              Next Normal Video (every 12h)
+            <p className="mt-1 text-xs text-[var(--muted-foreground)]">
+              posts at {c.ist} IST
             </p>
-            <span className="rounded-full border border-[var(--border)] bg-[rgba(0,240,255,0.08)] px-2 py-0.5 text-[10px] font-medium text-cyan">
-              7-10 min
-            </span>
-          </div>
-          <p className="mt-2 text-3xl font-semibold text-cyan glow-text tabular-nums">
-            {normalCd.text}
-          </p>
-          <p className="mt-1 text-xs text-[var(--muted-foreground)]">
-            posts at {fmtClockIST(nextNormal)} IST
-          </p>
-        </div>
+          </motion.div>
+        ))}
       </section>
 
       <section className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -193,8 +198,14 @@ export default function Page() {
           { label: "Posted", value: success, accent: true },
           { label: "Failed", value: failed, danger: failed > 0 },
           { label: "Success Rate", value: `${successRate}%`, accent: true },
-        ].map((s) => (
-          <div key={s.label} className={`glass p-4 ${s.accent ? "glow-border" : ""}`}>
+        ].map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15 + i * 0.06 }}
+            className={`glass p-4 ${s.accent ? "glow-border" : ""}`}
+          >
             <p className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">
               {s.label}
             </p>
@@ -205,7 +216,7 @@ export default function Page() {
             >
               {s.value}
             </p>
-          </div>
+          </motion.div>
         ))}
       </section>
 
@@ -259,7 +270,13 @@ export default function Page() {
         ) : (
           <div className="flex flex-col gap-3">
             {sorted.map((e, i) => (
-              <article key={i} className="glass p-4">
+              <motion.article
+                key={i}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: Math.min(i * 0.04, 0.4) }}
+                className="glass p-4"
+              >
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -321,7 +338,7 @@ export default function Page() {
                     )}
                   </div>
                 </div>
-              </article>
+              </motion.article>
             ))}
           </div>
         )}
