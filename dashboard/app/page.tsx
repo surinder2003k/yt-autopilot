@@ -7,9 +7,6 @@ import { useEffect, useState } from "react";
 const HISTORY_URL =
   "https://raw.githubusercontent.com/surinder2003k/yt-autopilot/main/history.json";
 
-// ---- Cron schedule (GitHub Actions, UTC) ----
-// Shorts:  "0 */6 * * *"  -> 00:00, 06:00, 12:00, 18:00 UTC
-// Normal:  "30 */12 * * *" -> 00:30, 12:30 UTC
 const IST_OFFSET_MS = 5.5 * 3600 * 1000;
 
 function nextRunUTC(kind: "short" | "normal"): Date {
@@ -125,42 +122,42 @@ export default function Page() {
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8">
-      <header className="mb-6 border-b border-[#e2e8f0] pb-4">
-        <h1 className="text-2xl font-semibold text-[#1f2933]">
+      <header className="mb-6 border-b border-gray-200 pb-4">
+        <h1 className="text-2xl font-semibold text-gray-900">
           YT Auto-Pilot Monitor
         </h1>
-        <p className="mt-1 text-sm text-[#5b6770]">
+        <p className="mt-1 text-sm text-gray-500">
           Read-only dashboard for the automated YouTube Shorts pipeline
         </p>
-        <p className="mt-1 text-sm text-[#5b6770]">
+        <p className="mt-1 text-sm text-gray-500">
           Last run:{" "}
-          <span className="font-medium text-[#1f2933]">
+          <span className="font-medium text-gray-900">
             {lastRun ? timeAgo(lastRun.ts) : "—"}
           </span>
         </p>
       </header>
 
-      {/* Next-post countdown */}
+      {/* Countdown cards - plain, no animation */}
       <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="card p-4">
-          <p className="text-sm font-medium text-[#5b6770]">
+        <div className="border border-gray-200 rounded-lg p-4">
+          <p className="text-sm font-medium text-gray-600">
             Next Short (every 6h)
           </p>
-          <p className="mt-2 text-2xl font-semibold text-[#0b7fa8] tabular-nums">
+          <p className="mt-2 text-xl font-semibold text-gray-900 tabular-nums">
             {countdown(nextShort, now)}
           </p>
-          <p className="mt-1 text-xs text-[#5b6770]">
+          <p className="mt-1 text-xs text-gray-500">
             posts at {fmtClockIST(nextShort)} IST
           </p>
         </div>
-        <div className="card p-4">
-          <p className="text-sm font-medium text-[#5b6770]">
+        <div className="border border-gray-200 rounded-lg p-4">
+          <p className="text-sm font-medium text-gray-600">
             Next Normal Video (every 12h)
           </p>
-          <p className="mt-2 text-2xl font-semibold text-[#0b7fa8] tabular-nums">
+          <p className="mt-2 text-xl font-semibold text-gray-900 tabular-nums">
             {countdown(nextNormal, now)}
           </p>
-          <p className="mt-1 text-xs text-[#5b6770]">
+          <p className="mt-1 text-xs text-gray-500">
             posts at {fmtClockIST(nextNormal)} IST
           </p>
         </div>
@@ -174,11 +171,11 @@ export default function Page() {
           { label: "Failed", value: failed },
           { label: "Success Rate", value: `${successRate}%` },
         ].map((s) => (
-          <div key={s.label} className="card p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-[#5b6770]">
+          <div key={s.label} className="border rounded p-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
               {s.label}
             </p>
-            <p className="mt-2 text-3xl font-semibold text-[#1f2933]">
+            <p className="mt-2 text-2xl font-semibold text-gray-900">
               {s.value}
             </p>
           </div>
@@ -187,10 +184,10 @@ export default function Page() {
 
       {/* Health bar */}
       <section className="mb-6">
-        <div className="card flex items-center justify-between p-4">
+        <div className="rounded-lg bg-gray-900/50 p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className={`dot ${lastRun?.status === "failed" ? "dot-bad" : "dot-ok"}`} />
-            <span className="text-sm text-[#1f2933]">
+            <span className="inline-block w-6 h-6 rounded bg-gray-300/20"></span>
+            <span className="text-sm text-gray-400">
               {lastRun
                 ? lastRun.status === "success"
                   ? "Pipeline healthy — last post went live"
@@ -198,7 +195,7 @@ export default function Page() {
                 : "No runs yet"}
             </span>
           </div>
-          <span className="text-xs text-[#5b6770]">
+          <span className="text-xs text-gray-400">
             {lastRun ? fmtDate(lastRun.ts) : ""}
           </span>
         </div>
@@ -206,64 +203,70 @@ export default function Page() {
 
       {/* History */}
       <section>
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-[#1f2933]">Run History</h2>
+        <div className="mb-3">
+          <h2 className="text-base font-semibold text-gray-800">
+            Run History
+          </h2>
           <button
             onClick={load}
-            className="rounded border border-[#cbd5e0] bg-white px-3 py-1 text-xs text-[#0b7fa8] transition hover:bg-[#f4f6f8]"
+            className="rounded border border-gray-300 bg-white px-3 py-1 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
           >
             Refresh
           </button>
         </div>
 
         {!loaded ? (
-          <div className="card p-8 text-center text-sm text-[#5b6770]">
+          <div className="border rounded p-8 text-center text-sm text-gray-500">
             Loading…
           </div>
         ) : sorted.length === 0 ? (
-          <div className="card p-8 text-center text-sm text-[#5b6770]">
+          <div className="border rounded p-8 text-center text-sm text-gray-500">
             No posts yet. The pipeline runs every 6 hours.
           </div>
         ) : (
-          <div className="flex flex-col gap-3">
+          <div className="space-y-3">
             {sorted.map((e, i) => (
-              <article key={i} className="card p-4">
+              <article key={i} className="border rounded p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className={`dot ${e.status === "success" ? "dot-ok" : "dot-bad"}`} />
-                      <h3 className="truncate text-base font-medium text-[#1f2933]">
+                      <span className="w-5 h-6 rounded bg-gray-300/20"></span>
+                      <h3 className="truncate text-base font-medium text-gray-800">
                         {e.title || e.topic}
                       </h3>
                       {e.video_type === "short" && (
-                        <span className="ml-2 rounded border border-[#cbd5e0] bg-[#f4f6f8] px-2 py-0.5 text-[10px] font-medium text-[#5b6770]">
+                        <span className="ml-2 rounded border border-gray-300 bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
                           Short
                         </span>
                       )}
                       {e.video_type === "normal" && (
-                        <span className="ml-2 rounded border border-[#cbd5e0] bg-[#f4f6f8] px-2 py-0.5 text-[10px] font-medium text-[#5b6770]">
+                        <span className="ml-2 rounded border border-gray-300 bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
                           7-10 min
                         </span>
                       )}
                     </div>
-                    <p className="mt-1 truncate text-xs text-[#5b6770]">
+                    <p className="mt-1 text-xs text-gray-500">
                       {e.topic}
                     </p>
                     {e.status === "failed" && e.error && (
-                      <p className="mt-2 text-xs text-[#d64545]">{e.error}</p>
+                      <p className="mt-2 text-xs text-red-600">{e.error}</p>
                     )}
                   </div>
 
                   <div className="shrink-0 text-right">
-                    <p className="text-xs text-[#5b6770]">{timeAgo(e.ts)}</p>
-                    <p className="text-[10px] text-[#8a96a3]">{fmtDate(e.ts)}</p>
+                    <p className="text-xs text-gray-400">
+                      {timeAgo(e.ts)}
+                    </p>
+                    <p className="text-[10px] text-gray-400">
+                      {fmtDate(e.ts)}
+                    </p>
                     {e.status === "success" && e.url && (
                       <a
                         href={e.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-2 inline-block rounded border border-[#cbd5e0] bg-white px-3 py-1 text-xs text-[#0b7fa8] transition hover:bg-[#f4f6f8]"
-                      >
+                        className="mt-2 inline-block rounded border border-gray-300 bg-white px-3 py-1 text-xs font-medium text-gray-600 transition hover:bg-gray-50"
+                        >
                         Watch ↗
                       </a>
                     )}
@@ -275,9 +278,8 @@ export default function Page() {
         )}
       </section>
 
-      <footer className="mt-10 text-center text-xs text-[#8a96a3]">
-        Auto-generated · Shorts every 6h + Normal video every 12h via GitHub
-        Actions
+      <footer className="mt-10 text-center text-sm text-gray-400">
+        Auto-generated · Shorts every 6h + Normal video every 12h via GitHub Actions
       </footer>
     </main>
   );

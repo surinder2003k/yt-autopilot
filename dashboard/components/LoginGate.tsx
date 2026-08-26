@@ -7,7 +7,7 @@ const PASS = "3424";
 const KEY = "ytap_auth";
 
 export function useAuth() {
-  const [authed, setAuthed] = useState<boolean | null>(null); // null = loading
+  const [authed, setAuthed] = useState<boolean | null>(null);
 
   useEffect(() => {
     setAuthed(localStorage.getItem(KEY) === "1");
@@ -36,7 +36,7 @@ export function LoginGate() {
   const [p, setP] = useState("");
   const [err, setErr] = useState(false);
 
-  if (authed === null) return null; // loading
+  if (authed === null) return null;
 
   if (!authed) {
     return (
@@ -46,12 +46,12 @@ export function LoginGate() {
             e.preventDefault();
             if (!login(u, p)) setErr(true);
           }}
-          className="card w-full max-w-sm p-6"
+          className="glass w-full max-w-sm p-6"
         >
-          <h1 className="text-center text-xl font-semibold text-[#1f2933]">
+          <h1 className="text-center text-xl font-semibold text-[var(--foreground))">
             YT Auto-Pilot
           </h1>
-          <p className="mt-1 text-center text-xs text-[#5b6770]">
+          <p className="mt-1 text-center text-xs text-[var(--muted-foreground)]">
             Sign in to view the monitor
           </p>
 
@@ -63,7 +63,7 @@ export function LoginGate() {
                 setErr(false);
               }}
               placeholder="username"
-              className="rounded border border-[#cbd5e0] bg-white px-3 py-2 text-sm text-[#1f2933] outline-none placeholder:text-[#8a96a3] focus:border-[#0b7fa8]"
+              className="rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)]"
             />
             <input
               type="password"
@@ -73,14 +73,14 @@ export function LoginGate() {
                 setErr(false);
               }}
               placeholder="password"
-              className="rounded border border-[#cbd5e0] bg-white px-3 py-2 text-sm text-[#1f2933] outline-none placeholder:text-[#8a96a3] focus:border-[#0b7fa8]"
+              className="rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)]"
             />
             {err && (
-              <p className="text-xs text-[#d64545]">Invalid username or password</p>
+              <p className="text-xs text-[var(--danger)]">Invalid username or password</p>
             )}
             <button
               type="submit"
-              className="mt-1 rounded border border-[#0b7fa8] bg-[#0b7fa8] px-3 py-2 text-sm font-medium text-white transition hover:bg-[#096b8f]"
+              className="mt-1 rounded-lg border border-[var(--accent)] bg-[var(--accent)] px-3 py-2 text-sm font-medium text-black transition hover:opacity-90"
             >
               Enter
             </button>
@@ -94,7 +94,7 @@ export function LoginGate() {
     <div className="fixed right-4 top-4 z-50">
       <button
         onClick={logout}
-        className="rounded border border-[#cbd5e0] bg-white px-3 py-1 text-xs text-[#5b6770] transition hover:bg-[#f4f6f8]"
+        className="rounded border border-[var(--border)] bg-transparent px-3 py-1 text-xs font-medium text-[var(--muted-foreground)] transition hover:text-[var(--accent)]"
       >
         Logout
       </button>
