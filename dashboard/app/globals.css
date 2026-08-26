@@ -32,22 +32,69 @@ body {
   min-height: 100vh;
 }
 
-/* Clean flat card (luxury-minimal) */
-.glass {
-  background: var(--card);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(12px);
+/* Drag & drop zone */
+.drop-zone {
+  border: 2px dashed var(--border);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  padding: 40px 20px;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-/* Accent link/button */
-.accent {
-  color: var(--accent);
+.drop-zone.hover {
+  border-color: var(--accent);
+  background: rgba(0, 240, 255, 0.05);
 }
 
-.accent:hover {
-  opacity: 0.85;
+.drop-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(0, 240, 255, 0.1);
+}
+
+.drop-zone-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  opacity: 0.6;
+}
+
+.drop-zone-text {
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+.drop-zone-text strong {
+  color: var(--foreground);
+}
+
+/* Minimal buttons */
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #06090c;
+  border: none;
+}
+
+.btn-accent:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 240, 255, 0.08);
 }
 
 /* Minimal status dot */
