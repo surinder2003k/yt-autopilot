@@ -47,21 +47,21 @@ HISTORY_FILE = pathlib.Path(os.environ.get("HISTORY_FILE", str(ROOT / "history.j
 
 # US-based niches - high RPM categories (English only)
 TOPICS = [
-    # Cartoon / animated kids' stories with SUSPENSE (hook + mystery + twist)
-    {"t": "the little robot who got lost in the glowing forest", "lang": "en", "tags": ["cartoon","kidsstory","robot","adventure","animation"]},
-    {"t": "the secret door under the boy's bed", "lang": "en", "tags": ["cartoon","kidsstory","mystery","bedroom","animation"]},
-    {"t": "the cat who could talk only at midnight", "lang": "en", "tags": ["cartoon","kidsstory","cat","magic","animation"]},
-    {"t": "the missing stars and the brave little girl", "lang": "en", "tags": ["cartoon","kidsstory","stars","space","animation"]},
-    {"t": "the invisible friend who saved the day", "lang": "en", "tags": ["cartoon","kidsstory","friend","magic","animation"]},
-    {"t": "the pirate map hidden inside a cereal box", "lang": "en", "tags": ["cartoon","kidsstory","pirate","treasure","animation"]},
-    {"t": "the dragon who was afraid of fireworks", "lang": "en", "tags": ["cartoon","kidsstory","dragon","brave","animation"]},
-    {"t": "the toy soldier that came alive at night", "lang": "en", "tags": ["cartoon","kidsstory","toy","adventure","animation"]},
-    {"t": "the magic pencil that drew real things", "lang": "en", "tags": ["cartoon","kidsstory","magic","pencil","animation"]},
-    {"t": "the whispering window in the old house", "lang": "en", "tags": ["cartoon","kidsstory","house","mystery","animation"]},
-    {"t": "the tiny alien stuck in the school backpack", "lang": "en", "tags": ["cartoon","kidsstory","alien","school","animation"]},
-    {"t": "the moon rabbit and the stolen moonlight", "lang": "en", "tags": ["cartoon","kidsstory","moon","rabbit","animation"]},
-    {"t": "the volcano that swallowed the whole town", "lang": "en", "tags": ["cartoon","kidsstory","volcano","disaster","animation"]},
-    {"t": "the underwater city nobody believed existed", "lang": "en", "tags": ["cartoon","kidsstory","ocean","city","animation"]},
+    # Anime-style kids' stories with SUSPENSE (hook + mystery + twist) — famous anime vibes
+    {"t": "the demon slayer who lost his sword in the forbidden forest", "lang": "en", "tags": ["anime","demonslayer","action","manga","animation"]},
+    {"t": "the solo hunter who got the legendary shadow system", "lang": "en", "tags": ["anime","sololeveling","shadow","system","action"]},
+    {"t": "the ninja kid who awakened the nine-tailed fox power", "lang": "en", "tags": ["anime","naruto","ninja","power","manga"]},
+    {"t": "the pirate boy who found the one piece of the sky", "lang": "en", "tags": ["anime","onepiece","pirate","adventure","manga"]},
+    {"t": "the wizard apprentice who summoned a fire dragon", "lang": "en", "tags": ["anime","magic","dragon","wizard","fantasy"]},
+    {"t": "the taisho girl who tamed a man-eating ghoul", "lang": "en", "tags": ["anime","tokyoghoul","ghoul","action","manga"]},
+    {"t": "the hero who unlocked the infinite tsukuyomi dream", "lang": "en", "tags": ["anime","shonen","powers","dream","action"]},
+    {"t": "the samurai robot from the cyberpunk neon city", "lang": "en", "tags": ["anime","cyberpunk","robot","samurai","scifi"]},
+    {"t": "the school girl who could see dead anime spirits", "lang": "en", "tags": ["anime","spirits","school","mystery","manga"]},
+    {"t": "the assassin who joined the elite phantom troupe", "lang": "en", "tags": ["anime","hunterxhunter","assassin","action","manga"]},
+    {"t": "the slime hero who ate the whole dungeon", "lang": "en", "tags": ["anime","isekai","slime","dungeon","fantasy"]},
+    {"t": "the giant who protected the last human wall", "lang": "en", "tags": ["anime","attackontitan","titan","action","manga"]},
+    {"t": "the alchemist who searched for the philosophers stone", "lang": "en", "tags": ["anime","fma","alchemist","magic","adventure"]},
+    {"t": "the reaper who fell in love with a human girl", "lang": "en", "tags": ["anime","romance","reaper","fantasy","manga"]},
 ]
 
 # Evergreen viral hashtags appended to EVERY post for reach/trending.
@@ -69,9 +69,9 @@ TOPICS = [
 # YouTube Shorts, Reels and search (avoid identical-tag spam flags).
 TRENDING_HASHTAGS = [
     "shorts", "viral", "trending", "fyp", "foryou", "youtubeshorts",
-    "reels", "explore", "cartoon", "kids", "kidsstory", "animation",
+    "reels", "explore", "anime", "manga", "shonen", "animeedit", "animation",
     "didyouknow", "viralfacts", "trendingnow", "foryoupage", "motivation",
-    "storytime", "bedtimestory", "kidstories",
+    "storytime", "animefyp", "animereels",
 ]
 
 def trending_block(vtype):
@@ -151,11 +151,12 @@ def pick_aspect(state):
 
 # ~1 minute Short: ~140-160 spoken words ≈ 1 min at ~150 wpm.
 SHORT_VIDEO_SCRIPT_PROMPT = (
-    "Write a PUNCHY, fast-paced kids' CARTOON STORY script (140-160 words, "
-    "3 short paragraphs). Open with a HOOK in the very first line that drops "
-    "the viewer straight into a mystery or danger. Build SUSPENSE, then end "
-    "with a cliffhanger or a fun twist. Use simple, exciting words a child "
-    "would love. Spoken-aloud style, no fluff, no headings."
+    "Write a PUNCHY, fast-paced ANIME-STYLE story script (140-160 words, 3 "
+    "short paragraphs). Opening line drops the viewer straight into an epic "
+    "battle, a power awakening, or a mysterious threat — like Demon Slayer, "
+    "Solo Leveling or Naruto. Build SUSPENSE and hype, use shonen energy and "
+    "vivid action words, then end on a cliffhanger or epic twist. Spoken-aloud "
+    "style, simple exciting words, no fluff, no headings."
 )
 
 

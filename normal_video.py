@@ -26,37 +26,37 @@ from app.utils import utils
 sys.path.insert(0, str(ROOT))
 from autopilot import notify_telegram
 
-# ---- Topic pool for normal 7-15 min videos (cartoon / animated kids' stories, SUSPENSE) ----
+# ---- Topic pool for normal 7-15 min videos (anime-style stories, SUSPENSE) ----
 NORMAL_TOPICS = [
-    {"t": "the lost kingdom of talking animals — a full cartoon adventure", "lang": "en", "tags": ["cartoon","kidsstory","adventure","animals","animation"]},
-    {"t": "the haunted playground and the mystery of the missing children", "lang": "en", "tags": ["cartoon","kidsstory","mystery","playground","animation"]},
-    {"t": "the girl who traveled to the cloud world — a magical cartoon tale", "lang": "en", "tags": ["cartoon","kidsstory","magic","cloud","animation"]},
-    {"t": "the secret laboratory under the school — a kids' sci-fi story", "lang": "en", "tags": ["cartoon","kidsstory","scifi","school","animation"]},
-    {"t": "the brave little fox and the frozen forest — a winter cartoon saga", "lang": "en", "tags": ["cartoon","kidsstory","fox","winter","animation"]},
-    {"t": "the time machine toy that took a boy to the dinosaur world", "lang": "en", "tags": ["cartoon","kidsstory","dinosaur","timetravel","animation"]},
-    {"t": "the candy kingdom under attack — a sweet cartoon war story", "lang": "en", "tags": ["cartoon","kidsstory","candy","kingdom","animation"]},
-    {"t": "the shadow monster in the closet — a kid vs fear cartoon tale", "lang": "en", "tags": ["cartoon","kidsstory","monster","fear","animation"]},
-    {"t": "the floating island nobody could reach — a sky adventure cartoon", "lang": "en", "tags": ["cartoon","kidsstory","island","sky","animation"]},
-    {"t": "the little wizard's first day at magic school — a cartoon journey", "lang": "en", "tags": ["cartoon","kidsstory","wizard","magic","animation"]},
+    {"t": "the demon slayer's final battle at the infinite castle — full anime arc", "lang": "en", "tags": ["anime","demonslayer","battle","manga","action"]},
+    {"t": "the shadow monarch's rise — solo leveling full story", "lang": "en", "tags": ["anime","sololeveling","shadow","system","action"]},
+    {"t": "the hidden leaf village war — naruto epic saga", "lang": "en", "tags": ["anime","naruto","ninja","war","manga"]},
+    {"t": "the grand line voyage — one piece adventure explained", "lang": "en", "tags": ["anime","onepiece","pirate","adventure","manga"]},
+    {"t": "the ghoul underground — tokyo ghoul full arc", "lang": "en", "tags": ["anime","tokyoghoul","ghoul","action","manga"]},
+    {"t": "the hunter exam trials — hunter x hunter saga", "lang": "en", "tags": ["anime","hunterxhunter","assassin","action","manga"]},
+    {"t": "the titan war at the last wall — attack on titan story", "lang": "en", "tags": ["anime","attackontitan","titan","action","manga"]},
+    {"t": "the reincarnated slime king — that time I got reincarnated arc", "lang": "en", "tags": ["anime","isekai","slime","fantasy","manga"]},
+    {"t": "the alchemist brothers' quest — fullmetal alchemist journey", "lang": "en", "tags": ["anime","fma","alchemist","magic","adventure"]},
+    {"t": "the cyberpunk edge runners — neon city tragedy", "lang": "en", "tags": ["anime","cyberpunk","scifi","tragedy","action"]},
 ]
 
 NORMAL_VIDEO_SCRIPT_PROMPT = (
-    "Write a LONG, immersive KIDS' CARTOON STORY script of 1500-2200 words "
-    "(at least 12 substantial paragraphs). Tell a real STORY with a beginning, "
-    "rising suspense, a scary/mysterious middle, and a satisfying or twist "
-    "ending. Drop the viewer into the adventure from line one. Use vivid, "
-    "kid-friendly language, cliffhangers between sections, and warm friendly "
-    "tone. Do NOT use markdown or headings. Spoken-aloud prose a narrator "
-    "would read to children."
+    "Write a LONG, immersive ANIME-STYLE story script of 1500-2200 words "
+    "(at least 12 substantial paragraphs). Tell a real anime ARC with a "
+    "powerful opening, rising battles/suspense, an intense middle, and a "
+    "climactic or twist ending — shonen energy like Demon Slayer, Solo "
+    "Leveling or Naruto. Use vivid action language, cliffhangers between "
+    "sections, and epic tone. Do NOT use markdown or headings. Spoken-aloud "
+    "prose a narrator would read with hype."
 )
 
 # Trending hashtags for reach
 TRENDING_NORMAL = [
-    "shorts","viral","trending","fyp","foryou","youtube","explore","cartoon",
-    "kids","kidsstory","animation","storytime","bedtimestory","kidstories",
+    "shorts","viral","trending","fyp","foryou","youtube","explore","anime",
+    "manga","shonen","animeedit","animefyp","animereels","storytime",
     "facts","didyouknow","viralfacts","trendingnow","foryoupage","motivation",
     "knowledge","learning","documentary","informative","education",
-    "top10","interestingfacts",
+    "top10","interestingfacts","animearc",
 ]
 
 HISTORY_FILE = os.environ.get("HISTORY_FILE", "history.json")
