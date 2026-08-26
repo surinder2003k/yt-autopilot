@@ -5,12 +5,7 @@ import { LoginGate } from "@/components/LoginGate";
 export const metadata: Metadata = {
   metadataBase: new URL("https://ytautopilot.vercel.app"),
   title: "YT Auto-Pilot — Monitor",
-  description: "Read-only monitor for the automated YouTube Shorts pipeline",
-  openGraph: {
-    title: "YT Auto-Pilot — Monitor",
-    description: "Read-only monitor for the automated YouTube Shorts pipeline",
-    images: ["/og-image.png"],
-  },
+  description: "Read-only monitor for the automated YouTube pipeline",
 };
 
 export default function RootLayout({
@@ -19,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body>
         <LoginGate />
         {children}
