@@ -26,37 +26,55 @@ from app.utils import utils
 sys.path.insert(0, str(ROOT))
 from autopilot import notify_telegram
 
-# ---- Topic pool for normal 7-15 min videos (anime-style stories, SUSPENSE) ----
+# ---- Topic pool for normal 7-15 min videos (stock-friendly fact/explainer) ----
 NORMAL_TOPICS = [
-    {"t": "the demon slayer's final battle at the infinite castle — full anime arc", "lang": "en", "tags": ["anime","demonslayer","battle","manga","action"]},
-    {"t": "the shadow monarch's rise — solo leveling full story", "lang": "en", "tags": ["anime","sololeveling","shadow","system","action"]},
-    {"t": "the hidden leaf village war — naruto epic saga", "lang": "en", "tags": ["anime","naruto","ninja","war","manga"]},
-    {"t": "the grand line voyage — one piece adventure explained", "lang": "en", "tags": ["anime","onepiece","pirate","adventure","manga"]},
-    {"t": "the ghoul underground — tokyo ghoul full arc", "lang": "en", "tags": ["anime","tokyoghoul","ghoul","action","manga"]},
-    {"t": "the hunter exam trials — hunter x hunter saga", "lang": "en", "tags": ["anime","hunterxhunter","assassin","action","manga"]},
-    {"t": "the titan war at the last wall — attack on titan story", "lang": "en", "tags": ["anime","attackontitan","titan","action","manga"]},
-    {"t": "the reincarnated slime king — that time I got reincarnated arc", "lang": "en", "tags": ["anime","isekai","slime","fantasy","manga"]},
-    {"t": "the alchemist brothers' quest — fullmetal alchemist journey", "lang": "en", "tags": ["anime","fma","alchemist","magic","adventure"]},
-    {"t": "the cyberpunk edge runners — neon city tragedy", "lang": "en", "tags": ["anime","cyberpunk","scifi","tragedy","action"]},
+    {"t": "the complete story of the black hole at the center of our galaxy", "lang": "en",
+     "tags": ["space","blackhole","galaxy","science"],
+     "search": ["galaxy","milky way","black hole","nebula","stars"]},
+    {"t": "what really lives in the deepest part of the ocean", "lang": "en",
+     "tags": ["ocean","deepsea","creatures","science"],
+     "search": ["deep ocean","abyss","sea creatures","submarine","coral"]},
+    {"t": "the unsolved mystery of the lost malaysia flight 370", "lang": "en",
+     "tags": ["mystery","flight370","unsolved","aviation"],
+     "search": ["airplane","ocean radar","storm","foggy sky","map"]},
+    {"t": "how artificial intelligence learned to scare the world", "lang": "en",
+     "tags": ["ai","tech","future","robot"],
+     "search": ["robot","ai lab","circuit","data center","server"]},
+    {"t": "the bermuda triangle mystery finally explained", "lang": "en",
+     "tags": ["mystery","bermuda","ocean","unsolved"],
+     "search": ["stormy sea","shipwreck","fog","compass","lightning"]},
+    {"t": "what earth would look like if all ice melted", "lang": "en",
+     "tags": ["earth","climate","science","future"],
+     "search": ["glacier","iceberg","flood","coast","polar"]},
+    {"t": "the smartest creatures in the animal kingdom", "lang": "en",
+     "tags": ["animals","nature","facts","intelligent"],
+     "search": ["octopus","dolphin","crow","elephant","wildlife"]},
+    {"t": "the lost underwater cities archaeologists discovered", "lang": "en",
+     "tags": ["mystery","lostcity","underwater","history"],
+     "search": ["underwater ruins","sunken temple","diving","ancient","statue"]},
+    {"t": "the strangest planets ever found by astronomers", "lang": "en",
+     "tags": ["space","planets","universe","science"],
+     "search": ["planet","solar system","telescope","ringed planet","space"]},
+    {"t": "the forest where people vanish without a trace", "lang": "en",
+     "tags": ["mystery","forest","creepy","unsolved"],
+     "search": ["dark forest","foggy woods","mist","abandoned","trees"]},
 ]
 
 NORMAL_VIDEO_SCRIPT_PROMPT = (
-    "Write a LONG, immersive ANIME-STYLE story script of 1500-2200 words "
-    "(at least 12 substantial paragraphs). Tell a real anime ARC with a "
-    "powerful opening, rising battles/suspense, an intense middle, and a "
-    "climactic or twist ending — shonen energy like Demon Slayer, Solo "
-    "Leveling or Naruto. Use vivid action language, cliffhangers between "
-    "sections, and epic tone. Do NOT use markdown or headings. Spoken-aloud "
-    "prose a narrator would read with hype."
+    "Write a LONG, immersive EXPLAINER/STORY script of 1500-2200 words "
+    "(at least 12 substantial paragraphs). Open with a gripping hook, build "
+    "suspense and curiosity through real facts, surprising discoveries, and a "
+    "strong narrative arc. End with a twist or a 'what happens next' teaser. "
+    "Use clear spoken-language prose, cliffhangers between sections. Do NOT "
+    "use markdown or headings."
 )
 
 # Trending hashtags for reach
 TRENDING_NORMAL = [
-    "shorts","viral","trending","fyp","foryou","youtube","explore","anime",
-    "manga","shonen","animeedit","animefyp","animereels","storytime",
-    "facts","didyouknow","viralfacts","trendingnow","foryoupage","motivation",
-    "knowledge","learning","documentary","informative","education",
-    "top10","interestingfacts","animearc",
+    "shorts","viral","trending","fyp","foryou","youtube","explore","facts",
+    "didyouknow","science","space","mystery","viralfacts","trendingnow",
+    "foryoupage","motivation","knowledge","learning","documentary",
+    "informative","education","top10","interestingfacts",
 ]
 
 HISTORY_FILE = os.environ.get("HISTORY_FILE", "history.json")
@@ -154,10 +172,13 @@ def generate_video(script, title, desc, tags):
     synthesize_script_chunked(script, audio_path)
     print(f"[INFO] audio ready: {audio_path} ({os.path.getsize(audio_path)} bytes)")
 
+    search_terms = list(topic_entry.get("search", [title]))
+    random.shuffle(search_terms)
+    video_terms = [title] + search_terms[:4] + ["cinematic", "facts"]
     params = VideoParams(
         video_subject=title,
         video_script=script,
-        video_terms=[title, "facts", "cinematic", "technology", "nature"],
+        video_terms=video_terms,
         video_aspect="16:9",   # 16:9 landscape normal video
         video_language="en",
         voice_name="female_or_male_optimized",

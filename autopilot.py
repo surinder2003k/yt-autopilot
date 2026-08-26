@@ -45,23 +45,52 @@ UPLOAD_LANGUAGE = os.environ.get("UPLOAD_LANGUAGE", "en")  # en or hi
 STATE_FILE = pathlib.Path(os.environ.get("STATE_FILE", str(ROOT / "automation_state.json")))
 HISTORY_FILE = pathlib.Path(os.environ.get("HISTORY_FILE", str(ROOT / "history.json")))
 
-# US-based niches - high RPM categories (English only)
+# Stock-friendly fact/explainer topics (Pexels footage abundant, high-retention).
+# Each has `search` keywords so Pexels pulls DIFFERENT b-roll per topic and
+# we avoid repeating the same clips across uploads.
 TOPICS = [
-    # Anime-style kids' stories with SUSPENSE (hook + mystery + twist) — famous anime vibes
-    {"t": "the demon slayer who lost his sword in the forbidden forest", "lang": "en", "tags": ["anime","demonslayer","action","manga","animation"]},
-    {"t": "the solo hunter who got the legendary shadow system", "lang": "en", "tags": ["anime","sololeveling","shadow","system","action"]},
-    {"t": "the ninja kid who awakened the nine-tailed fox power", "lang": "en", "tags": ["anime","naruto","ninja","power","manga"]},
-    {"t": "the pirate boy who found the one piece of the sky", "lang": "en", "tags": ["anime","onepiece","pirate","adventure","manga"]},
-    {"t": "the wizard apprentice who summoned a fire dragon", "lang": "en", "tags": ["anime","magic","dragon","wizard","fantasy"]},
-    {"t": "the taisho girl who tamed a man-eating ghoul", "lang": "en", "tags": ["anime","tokyoghoul","ghoul","action","manga"]},
-    {"t": "the hero who unlocked the infinite tsukuyomi dream", "lang": "en", "tags": ["anime","shonen","powers","dream","action"]},
-    {"t": "the samurai robot from the cyberpunk neon city", "lang": "en", "tags": ["anime","cyberpunk","robot","samurai","scifi"]},
-    {"t": "the school girl who could see dead anime spirits", "lang": "en", "tags": ["anime","spirits","school","mystery","manga"]},
-    {"t": "the assassin who joined the elite phantom troupe", "lang": "en", "tags": ["anime","hunterxhunter","assassin","action","manga"]},
-    {"t": "the slime hero who ate the whole dungeon", "lang": "en", "tags": ["anime","isekai","slime","dungeon","fantasy"]},
-    {"t": "the giant who protected the last human wall", "lang": "en", "tags": ["anime","attackontitan","titan","action","manga"]},
-    {"t": "the alchemist who searched for the philosophers stone", "lang": "en", "tags": ["anime","fma","alchemist","magic","adventure"]},
-    {"t": "the reaper who fell in love with a human girl", "lang": "en", "tags": ["anime","romance","reaper","fantasy","manga"]},
+    {"t": "what happens if you fall into a black hole", "lang": "en",
+     "tags": ["space","blackhole","universe","science"],
+     "search": ["black hole","galaxy","nebula","stars space","cosmos"]},
+    {"t": "the terrifying creatures at the bottom of the ocean", "lang": "en",
+     "tags": ["ocean","deepsea","creatures","mystery"],
+     "search": ["deep ocean","sea creatures","underwater","jellyfish","coral reef"]},
+    {"t": "the bizarre disappearance of flight 370 explained", "lang": "en",
+     "tags": ["mystery","flight370","unsolved","aviation"],
+     "search": ["airplane","storm clouds","radar","ocean from above","fog"]},
+    {"t": "the deadliest animal on earth you never suspect", "lang": "en",
+     "tags": ["animals","nature","facts","deadly"],
+     "search": ["wildlife","snake","mosquito","safari","jungle"]},
+    {"t": "the ai that went rogue and scared its own creators", "lang": "en",
+     "tags": ["ai","tech","future","robot"],
+     "search": ["robot","circuit","ai server","technology","data center"]},
+    {"t": "the creepy things found in the bermuda triangle", "lang": "en",
+     "tags": ["mystery","bermuda","unsolved","ocean"],
+     "search": ["stormy sea","shipwreck","foggy ocean","compass","lightning"]},
+    {"t": "what would happen if all the ice on earth melted", "lang": "en",
+     "tags": ["earth","climate","science","future"],
+     "search": ["glacier","iceberg","flood","melting ice","polar"]},
+    {"t": "the smartest animal you have never heard of", "lang": "en",
+     "tags": ["animals","nature","facts","intelligent"],
+     "search": ["octopus","crow","dolphin","elephant","wild animal"]},
+    {"t": "the lost city scientists found underwater", "lang": "en",
+     "tags": ["mystery","lostcity","underwater","history"],
+     "search": ["underwater ruins","ancient temple","sunken city","diving","statue"]},
+    {"t": "10 planets that should not exist but do", "lang": "en",
+     "tags": ["space","planets","universe","science"],
+     "search": ["planet","solar system","space telescope","ringed planet","astronomy"]},
+    {"t": "the sound of space what planets really sound like", "lang": "en",
+     "tags": ["space","sound","science","universe"],
+     "search": ["radio waves","aurora","satellite","space station","solar flare"]},
+    {"t": "the forest where people go in and never come out", "lang": "en",
+     "tags": ["mystery","forest","unsolved","creepy"],
+     "search": ["dark forest","foggy woods","abandoned","mist","trees"]},
+    {"t": "what the internet looked like in 1995", "lang": "en",
+     "tags": ["tech","internet","retro","history"],
+     "search": ["old computer","retro tech","floppy disk","crt monitor","90s"]},
+    {"t": "the place on earth where nothing can survive", "lang": "en",
+     "tags": ["earth","extreme","desert","science"],
+     "search": ["desert","volcano","dry lake","wasteland","heat"]},
 ]
 
 # Evergreen viral hashtags appended to EVERY post for reach/trending.
@@ -69,9 +98,9 @@ TOPICS = [
 # YouTube Shorts, Reels and search (avoid identical-tag spam flags).
 TRENDING_HASHTAGS = [
     "shorts", "viral", "trending", "fyp", "foryou", "youtubeshorts",
-    "reels", "explore", "anime", "manga", "shonen", "animeedit", "animation",
-    "didyouknow", "viralfacts", "trendingnow", "foryoupage", "motivation",
-    "storytime", "animefyp", "animereels",
+    "reels", "explore", "facts", "didyouknow", "science", "space",
+    "mystery", "viralfacts", "trendingnow", "foryoupage", "motivation",
+    "learnontiktok", "knowledge", "interestingfacts",
 ]
 
 def trending_block(vtype):
@@ -151,12 +180,12 @@ def pick_aspect(state):
 
 # ~1 minute Short: ~140-160 spoken words ≈ 1 min at ~150 wpm.
 SHORT_VIDEO_SCRIPT_PROMPT = (
-    "Write a PUNCHY, fast-paced ANIME-STYLE story script (140-160 words, 3 "
-    "short paragraphs). Opening line drops the viewer straight into an epic "
-    "battle, a power awakening, or a mysterious threat — like Demon Slayer, "
-    "Solo Leveling or Naruto. Build SUSPENSE and hype, use shonen energy and "
-    "vivid action words, then end on a cliffhanger or epic twist. Spoken-aloud "
-    "style, simple exciting words, no fluff, no headings."
+    "Write a PUNCHY, fast-paced explainer script (140-160 words, 3 short "
+    "paragraphs). Open with a HOOK that drops a shocking fact or a creepy "
+    "question in the first line. Build SUSPENSE and curiosity, keep it "
+    "fact-based but gripping, then end with a twist or a 'you won't believe "
+    "what's next' teaser. Spoken-aloud style, simple words, no fluff, no "
+    "headings."
 )
 
 
@@ -191,10 +220,15 @@ def generate_video(topic_entry, aspect="9:16", vtype="short"):
         video_script_prompt=script_prompt,
     )
     logger.info(f"script ready ({len(script)} chars) for topic: {topic_entry['t']}")
+    # Use topic-specific search keywords (rotated/shuffled) so Pexels pulls
+    # DIFFERENT b-roll each run - avoids repeating the same clips.
+    search_terms = list(topic_entry.get("search", [topic_entry["t"]]))
+    random.shuffle(search_terms)
+    video_terms = [topic_entry["t"]] + search_terms[:4] + ["cinematic", "facts"]
     params = VideoParams(
         video_subject=topic_entry["t"],
         video_script=script,
-        video_terms=[topic_entry["t"], "facts", "cinematic", "technology", "nature"],
+        video_terms=video_terms,
         voice_name=VOICE_MAP[lang],
         video_aspect=aspect,
         video_clip_duration=clip_duration,
