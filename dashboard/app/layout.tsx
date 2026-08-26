@@ -1,15 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LoginGate } from "@/components/LoginGate";
-import { Sora } from "next/font/google";
-import { AuroraBackground } from "@/components/AuroraBackground";
-import { CursorFollower } from "@/components/CursorFollower";
-
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ytautopilot.vercel.app"),
@@ -28,10 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={sora.variable}>
+    <html lang="en">
       <body>
-        <AuroraBackground />
-        <CursorFollower />
         <LoginGate />
         {children}
       </body>

@@ -40,22 +40,22 @@ export function LoginGate() {
 
   if (!authed) {
     return (
-      <div className="flex min-h-screen items-center justify-center px-5">
+      <div className="flex min-h-screen items-center justify-center px-4">
         <form
           onSubmit={(e) => {
             e.preventDefault();
             if (!login(u, p)) setErr(true);
           }}
-          className="glass glow-border w-full max-w-sm p-8"
+          className="card w-full max-w-sm p-6"
         >
-          <h1 className="text-center text-xl font-semibold glow-text text-cyan">
-            YT AUTO-PILOT
+          <h1 className="text-center text-xl font-semibold text-[#1f2933]">
+            YT Auto-Pilot
           </h1>
-          <p className="mt-1 text-center text-xs text-[var(--muted-foreground)]">
+          <p className="mt-1 text-center text-xs text-[#5b6770]">
             Sign in to view the monitor
           </p>
 
-          <div className="mt-6 flex flex-col gap-3">
+          <div className="mt-5 flex flex-col gap-3">
             <input
               value={u}
               onChange={(e) => {
@@ -63,7 +63,7 @@ export function LoginGate() {
                 setErr(false);
               }}
               placeholder="username"
-              className="rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted-foreground)] focus:border-cyan"
+              className="rounded border border-[#cbd5e0] bg-white px-3 py-2 text-sm text-[#1f2933] outline-none placeholder:text-[#8a96a3] focus:border-[#0b7fa8]"
             />
             <input
               type="password"
@@ -73,14 +73,14 @@ export function LoginGate() {
                 setErr(false);
               }}
               placeholder="password"
-              className="rounded-lg border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted-foreground)] focus:border-cyan"
+              className="rounded border border-[#cbd5e0] bg-white px-3 py-2 text-sm text-[#1f2933] outline-none placeholder:text-[#8a96a3] focus:border-[#0b7fa8]"
             />
             {err && (
-              <p className="text-xs text-danger">Invalid username or password</p>
+              <p className="text-xs text-[#d64545]">Invalid username or password</p>
             )}
             <button
               type="submit"
-              className="mt-1 rounded-lg border border-[var(--border)] bg-[rgba(0,240,255,0.08)] px-3 py-2 text-sm font-medium text-cyan transition hover:bg-[rgba(0,240,255,0.16)]"
+              className="mt-1 rounded border border-[#0b7fa8] bg-[#0b7fa8] px-3 py-2 text-sm font-medium text-white transition hover:bg-[#096b8f]"
             >
               Enter
             </button>
@@ -94,7 +94,7 @@ export function LoginGate() {
     <div className="fixed right-4 top-4 z-50">
       <button
         onClick={logout}
-        className="rounded-lg border border-[var(--border)] bg-[rgba(0,240,255,0.06)] px-3 py-1 text-xs text-[var(--muted-foreground)] transition hover:text-cyan"
+        className="rounded border border-[#cbd5e0] bg-white px-3 py-1 text-xs text-[#5b6770] transition hover:bg-[#f4f6f8]"
       >
         Logout
       </button>
