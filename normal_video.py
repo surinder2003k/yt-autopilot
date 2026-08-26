@@ -26,33 +26,36 @@ from app.utils import utils
 sys.path.insert(0, str(ROOT))
 from autopilot import notify_telegram
 
-# ---- Topic pool for normal 7-15 min videos ----
+# ---- Topic pool for normal 7-15 min videos (cartoon / animated kids' stories, SUSPENSE) ----
 NORMAL_TOPICS = [
-    {"t": "the dark history of the internet and how it changed the world", "lang": "en", "tags": ["internet","history","tech"]},
-    {"t": "how ancient civilizations predicted the future with shocking accuracy", "lang": "en", "tags": ["history","ancient","mystery"]},
-    {"t": "the psychology of why we procrastinate and how to actually stop", "lang": "en", "tags": ["psychology","productivity","mind"]},
-    {"t": "the real reason titanic sank — conspiracy theories explained", "lang": "en", "tags": ["titanic","conspiracy","history"]},
-    {"t": "how billionaires think differently from ordinary people", "lang": "en", "tags": ["money","success","psychology"]},
-    {"t": "the untold story of the first computer ever built", "lang": "en", "tags": ["computer","tech","history"]},
-    {"t": "why the bermuda triangle is still a mystery to science", "lang": "en", "tags": ["bermuda","mystery","science"]},
-    {"t": "the secret lives of the world's most dangerous dictators", "lang": "en", "tags": ["history","politics","war"]},
-    {"t": "how the stock market actually works for beginners", "lang": "en", "tags": ["stockmarket","money","finance"]},
-    {"t": "the science of sleep and what happens to your brain at night", "lang": "en", "tags": ["sleep","science","health"]},
+    {"t": "the lost kingdom of talking animals — a full cartoon adventure", "lang": "en", "tags": ["cartoon","kidsstory","adventure","animals","animation"]},
+    {"t": "the haunted playground and the mystery of the missing children", "lang": "en", "tags": ["cartoon","kidsstory","mystery","playground","animation"]},
+    {"t": "the girl who traveled to the cloud world — a magical cartoon tale", "lang": "en", "tags": ["cartoon","kidsstory","magic","cloud","animation"]},
+    {"t": "the secret laboratory under the school — a kids' sci-fi story", "lang": "en", "tags": ["cartoon","kidsstory","scifi","school","animation"]},
+    {"t": "the brave little fox and the frozen forest — a winter cartoon saga", "lang": "en", "tags": ["cartoon","kidsstory","fox","winter","animation"]},
+    {"t": "the time machine toy that took a boy to the dinosaur world", "lang": "en", "tags": ["cartoon","kidsstory","dinosaur","timetravel","animation"]},
+    {"t": "the candy kingdom under attack — a sweet cartoon war story", "lang": "en", "tags": ["cartoon","kidsstory","candy","kingdom","animation"]},
+    {"t": "the shadow monster in the closet — a kid vs fear cartoon tale", "lang": "en", "tags": ["cartoon","kidsstory","monster","fear","animation"]},
+    {"t": "the floating island nobody could reach — a sky adventure cartoon", "lang": "en", "tags": ["cartoon","kidsstory","island","sky","animation"]},
+    {"t": "the little wizard's first day at magic school — a cartoon journey", "lang": "en", "tags": ["cartoon","kidsstory","wizard","magic","animation"]},
 ]
 
 NORMAL_VIDEO_SCRIPT_PROMPT = (
-    "Write a DETAILED, long-form documentary-style script of 1500-2200 words "
-    "(at least 12 substantial paragraphs). Cover the topic in depth with "
-    "background, surprising facts, real examples, and a strong narrative arc. "
-    "Use clear paragraphs separated by blank lines. Do NOT use markdown or "
-    "headings. Write engaging, spoken-language prose a narrator would read aloud."
+    "Write a LONG, immersive KIDS' CARTOON STORY script of 1500-2200 words "
+    "(at least 12 substantial paragraphs). Tell a real STORY with a beginning, "
+    "rising suspense, a scary/mysterious middle, and a satisfying or twist "
+    "ending. Drop the viewer into the adventure from line one. Use vivid, "
+    "kid-friendly language, cliffhangers between sections, and warm friendly "
+    "tone. Do NOT use markdown or headings. Spoken-aloud prose a narrator "
+    "would read to children."
 )
 
 # Trending hashtags for reach
 TRENDING_NORMAL = [
-    "shorts","viral","trending","fyp","foryou","youtube","explore","ai",
+    "shorts","viral","trending","fyp","foryou","youtube","explore","cartoon",
+    "kids","kidsstory","animation","storytime","bedtimestory","kidstories",
     "facts","didyouknow","viralfacts","trendingnow","foryoupage","motivation",
-    "knowledge","learning","documentary","storytime","informative","education",
+    "knowledge","learning","documentary","informative","education",
     "top10","interestingfacts",
 ]
 

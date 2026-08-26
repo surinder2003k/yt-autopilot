@@ -47,25 +47,21 @@ HISTORY_FILE = pathlib.Path(os.environ.get("HISTORY_FILE", str(ROOT / "history.j
 
 # US-based niches - high RPM categories (English only)
 TOPICS = [
-    # Finance / Money (highest RPM $10-30)
-    {"t": "how the rich avoid paying taxes legally", "lang": "en", "tags": ["finance","money","taxes","rich"]},
-    {"t": "5 side hustles that pay more than a job in 2026", "lang": "en", "tags": ["sidehustle","money","income"]},
-    {"t": "why credit scores matter more than you think", "lang": "en", "tags": ["credit","finance","scores"]},
-    {"t": "how compound interest makes millionaires", "lang": "en", "tags": ["investing","compound","money"]},
-    {"t": "the 50/30/20 budget rule explained simply", "lang": "en", "tags": ["budget","finance","money"]},
-    # Tech / AI (high RPM $8-20)
-    {"t": "how AI is replacing jobs faster than you think", "lang": "en", "tags": ["ai","tech","jobs","future"]},
-    {"t": "the truth about electric cars nobody tells you", "lang": "en", "tags": ["tesla","ev","cars","tech"]},
-    {"t": "5 tech gadgets under $50 that feel illegal to own", "lang": "en", "tags": ["gadgets","tech","amazon"]},
-    {"t": "why your smartphone slows down after 2 years", "lang": "en", "tags": ["smartphone","tech","planned"]},
-    # Space / Science (medium RPM, viral)
-    {"t": "what happens if you fall into a black hole", "lang": "en", "tags": ["space","blackhole","science"]},
-    {"t": "the most dangerous places on earth", "lang": "en", "tags": ["earth","dangerous","geography"]},
-    {"t": "why NASA is going back to the moon in 2027", "lang": "en", "tags": ["nasa","moon","space"]},
-    {"t": "what would happen if the ocean disappeared", "lang": "en", "tags": ["ocean","science","earth"]},
-    # Psychology / Facts (viral)
-    {"t": "psychological tricks that actually work on people", "lang": "en", "tags": ["psychology","facts","mind"]},
-    {"t": "signs someone is lying to you instantly", "lang": "en", "tags": ["psychology","lies","bodylanguage"]},
+    # Cartoon / animated kids' stories with SUSPENSE (hook + mystery + twist)
+    {"t": "the little robot who got lost in the glowing forest", "lang": "en", "tags": ["cartoon","kidsstory","robot","adventure","animation"]},
+    {"t": "the secret door under the boy's bed", "lang": "en", "tags": ["cartoon","kidsstory","mystery","bedroom","animation"]},
+    {"t": "the cat who could talk only at midnight", "lang": "en", "tags": ["cartoon","kidsstory","cat","magic","animation"]},
+    {"t": "the missing stars and the brave little girl", "lang": "en", "tags": ["cartoon","kidsstory","stars","space","animation"]},
+    {"t": "the invisible friend who saved the day", "lang": "en", "tags": ["cartoon","kidsstory","friend","magic","animation"]},
+    {"t": "the pirate map hidden inside a cereal box", "lang": "en", "tags": ["cartoon","kidsstory","pirate","treasure","animation"]},
+    {"t": "the dragon who was afraid of fireworks", "lang": "en", "tags": ["cartoon","kidsstory","dragon","brave","animation"]},
+    {"t": "the toy soldier that came alive at night", "lang": "en", "tags": ["cartoon","kidsstory","toy","adventure","animation"]},
+    {"t": "the magic pencil that drew real things", "lang": "en", "tags": ["cartoon","kidsstory","magic","pencil","animation"]},
+    {"t": "the whispering window in the old house", "lang": "en", "tags": ["cartoon","kidsstory","house","mystery","animation"]},
+    {"t": "the tiny alien stuck in the school backpack", "lang": "en", "tags": ["cartoon","kidsstory","alien","school","animation"]},
+    {"t": "the moon rabbit and the stolen moonlight", "lang": "en", "tags": ["cartoon","kidsstory","moon","rabbit","animation"]},
+    {"t": "the volcano that swallowed the whole town", "lang": "en", "tags": ["cartoon","kidsstory","volcano","disaster","animation"]},
+    {"t": "the underwater city nobody believed existed", "lang": "en", "tags": ["cartoon","kidsstory","ocean","city","animation"]},
 ]
 
 # Evergreen viral hashtags appended to EVERY post for reach/trending.
@@ -73,8 +69,9 @@ TOPICS = [
 # YouTube Shorts, Reels and search (avoid identical-tag spam flags).
 TRENDING_HASHTAGS = [
     "shorts", "viral", "trending", "fyp", "foryou", "youtubeshorts",
-    "reels", "explore", "ai", "facts", "didyouknow", "viralfacts",
-    "trendingnow", "foryoupage", "learnontiktok", "motivation",
+    "reels", "explore", "cartoon", "kids", "kidsstory", "animation",
+    "didyouknow", "viralfacts", "trendingnow", "foryoupage", "motivation",
+    "storytime", "bedtimestory", "kidstories",
 ]
 
 def trending_block(vtype):
@@ -154,9 +151,11 @@ def pick_aspect(state):
 
 # ~1 minute Short: ~140-160 spoken words ≈ 1 min at ~150 wpm.
 SHORT_VIDEO_SCRIPT_PROMPT = (
-    "Write a punchy, fast-paced SHORT script of 140-160 words (3 short "
-    "paragraphs, hooks in the first line, no fluff). This is a ~1 minute "
-    "vertical reel — keep it tight and energetic."
+    "Write a PUNCHY, fast-paced kids' CARTOON STORY script (140-160 words, "
+    "3 short paragraphs). Open with a HOOK in the very first line that drops "
+    "the viewer straight into a mystery or danger. Build SUSPENSE, then end "
+    "with a cliffhanger or a fun twist. Use simple, exciting words a child "
+    "would love. Spoken-aloud style, no fluff, no headings."
 )
 
 
