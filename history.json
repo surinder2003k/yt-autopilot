@@ -730,5 +730,42 @@
     "task_id": null,
     "video_type": "normal",
     "aspect": "16:9"
+  },
+  {
+    "ts": "2026-08-29T15:51:01.671156+00:00",
+    "status": "success",
+    "topic_index": 3,
+    "topic": "the deadliest animal on earth you never suspect",
+    "title": "The Deadliest Animal On Earth You Never Suspect",
+    "video_id": "ij-k36nPYf4",
+    "url": "https://youtube.com/watch?v=ij-k36nPYf4",
+    "tags": [
+      "animals",
+      "nature",
+      "facts",
+      "deadly",
+      "shorts",
+      "fyp",
+      "youtubeshorts",
+      "reels",
+      "viral",
+      "trending",
+      "foryou",
+      "explore",
+      "didyouknow",
+      "science",
+      "space",
+      "mystery",
+      "viralfacts",
+      "trendingnow",
+      "foryoupage",
+      "motivation",
+      "learnontiktok",
+      "knowledge",
+      "interestingfacts"
+    ],
+    "task_id": "auto_96d0be5d",
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
