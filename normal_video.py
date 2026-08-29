@@ -161,7 +161,7 @@ def synthesize_script_chunked(script_text, final_path):
     except Exception: pass
     return final_path
 
-def generate_video(script, title, desc, tags):
+def generate_video(script, title, desc, tags, topic_entry):
     from app.models.schema import VideoParams
     from app.services import task as task_service
     import uuid
@@ -225,7 +225,7 @@ def main():
     print(f"[INFO] title: {title}")
 
     # 3) Generate (chunked TTS bypasses timeout) -> local mp4 path
-    video_path = generate_video(script, title, desc, tags)
+    video_path = generate_video(script, title, desc, tags, topic_entry)
     print(f"[INFO] video generated: {video_path}")
 
     # 4) Upload to YouTube
