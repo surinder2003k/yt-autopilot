@@ -1150,5 +1150,41 @@
     "task_id": null,
     "video_type": "normal",
     "aspect": "16:9"
+  },
+  {
+    "ts": "2026-08-31T11:59:02.983913+00:00",
+    "status": "success",
+    "topic_index": 9,
+    "topic": "10 planets that should not exist but do",
+    "title": "10 Planets That Should Not Exist But Do",
+    "video_id": "9eb2hkcqLkE",
+    "url": "https://youtube.com/watch?v=9eb2hkcqLkE",
+    "tags": [
+      "space",
+      "planets",
+      "universe",
+      "science",
+      "shorts",
+      "fyp",
+      "youtubeshorts",
+      "reels",
+      "viral",
+      "trending",
+      "foryou",
+      "explore",
+      "facts",
+      "didyouknow",
+      "mystery",
+      "viralfacts",
+      "trendingnow",
+      "foryoupage",
+      "motivation",
+      "learnontiktok",
+      "knowledge",
+      "interestingfacts"
+    ],
+    "task_id": "auto_ff31c41b",
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
