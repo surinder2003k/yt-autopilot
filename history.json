@@ -1222,5 +1222,15 @@
     "task_id": "auto_e06c6472",
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-01T02:17:52.732026+00:00",
+    "status": "failed",
+    "topic_index": 2,
+    "topic": "the bizarre disappearance of flight 370 explained",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
