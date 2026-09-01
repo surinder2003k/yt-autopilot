@@ -1242,5 +1242,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-01T15:39:58.063923+00:00",
+    "status": "failed",
+    "topic_index": 1,
+    "topic": "the terrifying creatures at the bottom of the ocean",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
