@@ -1232,5 +1232,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-01T10:38:32.634072+00:00",
+    "status": "failed",
+    "topic_index": 10,
+    "topic": "the sound of space what planets really sound like",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
