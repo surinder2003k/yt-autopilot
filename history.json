@@ -1282,5 +1282,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-02T15:27:42.978827+00:00",
+    "status": "failed",
+    "topic_index": 0,
+    "topic": "what happens if you fall into a black hole",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
