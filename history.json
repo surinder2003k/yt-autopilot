@@ -1332,5 +1332,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-03T20:13:19.076285+00:00",
+    "status": "failed",
+    "topic_index": 7,
+    "topic": "the smartest animal you have never heard of",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
