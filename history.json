@@ -1322,5 +1322,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-03T15:21:44.360356+00:00",
+    "status": "failed",
+    "topic_index": 12,
+    "topic": "what the internet looked like in 1995",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
