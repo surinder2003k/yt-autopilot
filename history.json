@@ -1312,5 +1312,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-03T10:14:13.869859+00:00",
+    "status": "failed",
+    "topic_index": 3,
+    "topic": "the deadliest animal on earth you never suspect",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
