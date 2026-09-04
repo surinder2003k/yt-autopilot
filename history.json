@@ -1372,5 +1372,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-04T19:58:55.689341+00:00",
+    "status": "failed",
+    "topic_index": 6,
+    "topic": "what would happen if all the ice on earth melted",
+    "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
