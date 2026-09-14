@@ -1772,5 +1772,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-14T21:07:30.085630+00:00",
+    "status": "failed",
+    "topic_index": 4,
+    "topic": "the ai that went rogue and scared its own creators",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
