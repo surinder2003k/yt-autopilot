@@ -1802,5 +1802,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-15T15:49:06.954005+00:00",
+    "status": "failed",
+    "topic_index": 12,
+    "topic": "what the internet looked like in 1995",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
