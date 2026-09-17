@@ -1892,5 +1892,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-17T20:39:37.741897+00:00",
+    "status": "failed",
+    "topic_index": 8,
+    "topic": "the lost city scientists found underwater",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
