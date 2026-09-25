@@ -2212,5 +2212,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-25T20:49:36.128585+00:00",
+    "status": "failed",
+    "topic_index": 11,
+    "topic": "the forest where people go in and never come out",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
