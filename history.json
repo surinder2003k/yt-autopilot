@@ -2242,5 +2242,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-26T15:13:52.611147+00:00",
+    "status": "failed",
+    "topic_index": 10,
+    "topic": "the sound of space what planets really sound like",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
