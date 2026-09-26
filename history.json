@@ -2252,5 +2252,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-26T20:17:21.694323+00:00",
+    "status": "failed",
+    "topic_index": 7,
+    "topic": "the smartest animal you have never heard of",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
