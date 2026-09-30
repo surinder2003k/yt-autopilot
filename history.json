@@ -2382,5 +2382,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-09-30T11:28:47.268279+00:00",
+    "status": "failed",
+    "topic_index": 5,
+    "topic": "the creepy things found in the bermuda triangle",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
