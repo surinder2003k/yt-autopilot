@@ -2522,5 +2522,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-03T20:18:32.686508+00:00",
+    "status": "failed",
+    "topic_index": 9,
+    "topic": "10 planets that should not exist but do",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
