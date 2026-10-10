@@ -2722,5 +2722,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-10T03:00:54.716637+00:00",
+    "status": "failed",
+    "topic_index": 2,
+    "topic": "the bizarre disappearance of flight 370 explained",
+    "error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
