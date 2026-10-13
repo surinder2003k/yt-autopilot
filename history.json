@@ -2852,5 +2852,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-13T22:02:30.447552+00:00",
+    "status": "failed",
+    "topic_index": 9,
+    "topic": "10 planets that should not exist but do",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
