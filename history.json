@@ -2862,5 +2862,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-14T02:23:36.082896+00:00",
+    "status": "failed",
+    "topic_index": 0,
+    "topic": "what happens if you fall into a black hole",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
