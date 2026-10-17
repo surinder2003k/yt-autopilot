@@ -2992,5 +2992,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-17T09:49:09.091637+00:00",
+    "status": "failed",
+    "topic_index": 5,
+    "topic": "the creepy things found in the bermuda triangle",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
