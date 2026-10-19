@@ -3092,5 +3092,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-19T21:48:19.650342+00:00",
+    "status": "failed",
+    "topic_index": 1,
+    "topic": "the terrifying creatures at the bottom of the ocean",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
