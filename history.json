@@ -3072,5 +3072,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-19T11:24:38.976815+00:00",
+    "status": "failed",
+    "topic_index": 3,
+    "topic": "the deadliest animal on earth you never suspect",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
