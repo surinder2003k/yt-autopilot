@@ -3292,5 +3292,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-10-25T02:00:16.816169+00:00",
+    "status": "failed",
+    "topic_index": 12,
+    "topic": "what the internet looked like in 1995",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
