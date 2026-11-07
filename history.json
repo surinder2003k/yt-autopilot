@@ -3772,5 +3772,15 @@
     "task_id": null,
     "video_type": "short",
     "aspect": "9:16"
+  },
+  {
+    "ts": "2026-11-07T21:11:11.461934+00:00",
+    "status": "failed",
+    "topic_index": 6,
+    "topic": "what would happen if all the ice on earth melted",
+    "error": "video generation failed: failed to synthesize audio; verify the selected voice and TTS connectivity",
+    "task_id": null,
+    "video_type": "short",
+    "aspect": "9:16"
   }
 ]
